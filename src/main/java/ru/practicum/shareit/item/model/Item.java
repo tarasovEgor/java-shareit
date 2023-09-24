@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class Item {
+
     private Long id = 0L;
     private String name;
     private String description;
@@ -22,16 +23,4 @@ public class Item {
         this.owner = owner;
         this.request = request;
     }
-
-    /*public Item(String name,
-                String description,
-                Boolean available,
-                Long owner) {
-        this.name = name;
-        this.description = description;
-        this.available = available;
-        this.owner = owner;
-    }*/
-
-
 }
