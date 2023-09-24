@@ -74,6 +74,10 @@ public class ItemDaoImpl implements ItemDao, ItemService {
     public List<ItemDto> searchItem(String text) {
         List<ItemDto> matchedItems = new ArrayList<>();
 
+        if (text.isEmpty()) {
+            return matchedItems;
+        }
+
         for (Item i : items.values()) {
 
             if (i.getName().replaceAll("//s", "").toLowerCase()
