@@ -1,11 +1,6 @@
 package ru.practicum.shareit.user.model;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class User {

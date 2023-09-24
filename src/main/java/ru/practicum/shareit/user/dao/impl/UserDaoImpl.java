@@ -1,9 +1,9 @@
 package ru.practicum.shareit.user.dao.impl;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.exception.UserDoesNotExistException;
-import ru.practicum.shareit.exception.UserDuplicateEmailException;
+
 import ru.practicum.shareit.user.dao.UserDao;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.validation.UserValidation;

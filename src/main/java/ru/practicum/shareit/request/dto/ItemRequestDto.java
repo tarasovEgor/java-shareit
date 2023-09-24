@@ -1,6 +1,7 @@
 package ru.practicum.shareit.request.dto;
 
 import lombok.Data;
+
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDate;
