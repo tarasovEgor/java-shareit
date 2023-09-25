@@ -11,7 +11,6 @@ import ru.practicum.shareit.item.dao.ItemDao;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.user.dao.UserDao;
 import ru.practicum.shareit.validation.ItemValidation;
 
@@ -19,7 +18,7 @@ import java.util.*;
 
 @Repository
 @Slf4j
-public class ItemDaoImpl implements ItemDao, ItemService {
+public class ItemDaoImpl implements ItemDao {
 
     private Map<Long, Item> items = new HashMap<>();
     private UserDao userDao;
@@ -79,7 +78,6 @@ public class ItemDaoImpl implements ItemDao, ItemService {
         }
 
         for (Item i : items.values()) {
-
             if (i.getName().replaceAll("//s", "").toLowerCase()
                             .contains(text.toLowerCase()) ||
                     i.getDescription().replaceAll("//s", "").toLowerCase()

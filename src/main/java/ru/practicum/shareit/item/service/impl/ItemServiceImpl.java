@@ -14,33 +14,35 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
 
     private ItemDao itemDao;
-    private ItemService itemService;
 
     @Autowired
-    public ItemServiceImpl(ItemDao itemDao, ItemService itemService) {
+    public ItemServiceImpl(ItemDao itemDao) {
         this.itemDao = itemDao;
-        this.itemService = itemService;
     }
 
+    @Override
     public Item saveItem(ItemDto itemDto, long ownerId) {
         return itemDao.saveItem(itemDto, ownerId);
     }
 
+    @Override
     public Item updateItem(ItemDto itemDto, long itemId, Long ownerId) {
         return itemDao.updateItem(itemDto, itemId, ownerId);
     }
 
+    @Override
     public ItemDto getItem(long itemId) {
         return itemDao.getItem(itemId);
     }
 
+    @Override
     public List<ItemDto> getAllItems(long ownerId) {
         return itemDao.getAllItems(ownerId);
     }
 
     @Override
     public List<ItemDto> searchItem(String text) {
-        return itemService.searchItem(text);
+        return itemDao.searchItem(text);
     }
 
 }

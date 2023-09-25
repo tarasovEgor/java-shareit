@@ -13,4 +13,6 @@ public interface ItemDao {
     ItemDto getItem(long itemId);
 
     List<ItemDto> getAllItems(long ownerId);
+
+    List<ItemDto> searchItem(String text);
 }
