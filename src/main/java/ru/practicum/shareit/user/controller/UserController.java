@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.service.UserService;
+import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 
 import javax.validation.Valid;
 
@@ -15,36 +15,36 @@ import java.util.Optional;
 @RequestMapping(path = "/users")
 public class UserController {
 
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @PostMapping
     public User saveUser(@Valid @RequestBody User user) {
-        return userService.saveUser(user);
+        return userServiceImpl.saveUser(user);
     }
 
     @GetMapping("/{id}")
     public Optional<User> getUserById(@PathVariable long id) {
-        return userService.getUserById(id);
+        return userServiceImpl.getUserById(id);
     }
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userService.getAllUsers();
+        return userServiceImpl.getAllUsers();
     }
 
     @PatchMapping("/{id}")
     public User updateUser(@PathVariable long id, @Valid @RequestBody User user) {
-        return userService.updateUser(id, user);
+        return userServiceImpl.updateUser(id, user);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable long id) {
-        userService.deleteUser(id);
+        userServiceImpl.deleteUser(id);
     }
 
 }

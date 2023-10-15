@@ -19,4 +19,12 @@ public class UserMapper {
                 user.getEmail()
         );
     }
+
+//    public static AuthorDto toAuthorDto(User user) {
+//        return new AuthorDto(
+//                user.getId(),
+//                user.getName(),
+//                user.getEmail()
+//        );
+//    }
 }

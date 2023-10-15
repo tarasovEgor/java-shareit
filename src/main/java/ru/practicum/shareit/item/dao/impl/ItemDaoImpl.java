@@ -32,10 +32,11 @@ public class ItemDaoImpl implements ItemDao {
     @Override
     public Item saveItem(ItemDto itemDto, long ownerId) {
         ItemValidation.isItemDtoValid(itemDto, ownerId, userDao.getAllUsers());
-        Item item = ItemMapper.toItem(itemDto, ownerId);
-        item.setId(id++);
-        items.put(item.getId(), item);
-        return item;
+//        Item item = ItemMapper.toItem(itemDto, ownerId);
+//        item.setId(id++);
+//        items.put(item.getId(), item);
+//        return item;
+        return null;
     }
 
     @Override
@@ -59,14 +60,15 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public List<ItemDto> getAllItems(long ownerId) {
-        List<ItemDto> ownersItems = new ArrayList<>();
-
-        for (Item i : items.values()) {
-            if (i.getOwner() == ownerId) {
-                ownersItems.add(ItemMapper.toItemDto(i));
-            }
-        }
-        return ownersItems;
+//        List<ItemDto> ownersItems = new ArrayList<>();
+//
+//        for (Item i : items.values()) {
+//            if (i.getOwner() == ownerId) {
+//                ownersItems.add(ItemMapper.toItemDto(i));
+//            }
+//        }
+//        return ownersItems;
+        return null;
     }
 
     @Override

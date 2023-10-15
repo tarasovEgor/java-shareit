@@ -5,13 +5,55 @@ import lombok.Data;
 
 import ru.practicum.shareit.user.model.User;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 @Data
-@Builder(toBuilder = true)
+@Entity
+@Table(
+        name = "requests",
+        schema = "public"
+)
 public class ItemRequest {
-    private final Long id;
-    private final String description;
-    private final User requestor;
-    private final LocalDate created;
+
+    @Id
+    @SequenceGenerator(
+            name = "request_sequence",
+            sequenceName = "request_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "request_sequence"
+    )
+    @Column(
+            name = "id",
+            updatable = false
+    )
+    private Long id;
+
+    @Column(
+            name = "description",
+            nullable = false
+    )
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "requestor_id"
+    )
+    private User requestor;
+    private LocalDate created;
+
+    public ItemRequest() {
+
+    }
+
+    public ItemRequest(String description, User requestor, LocalDate created) {
+        this.description = description;
+        this.requestor = requestor;
+        this.created = created;
+    }
 }
