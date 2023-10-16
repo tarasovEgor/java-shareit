@@ -44,6 +44,10 @@ public class ItemRequest {
             name = "requestor_id"
     )
     private User requestor;
+
+    @Column(
+            name = "created"
+    )
     private LocalDate created;
 
     public ItemRequest() {

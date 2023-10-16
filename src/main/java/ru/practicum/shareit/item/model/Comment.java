@@ -53,6 +53,9 @@ public class Comment {
     )
     private User author;
 
+    @Column(
+            name = "created"
+    )
     private LocalDateTime created;
 
     public Comment() {
