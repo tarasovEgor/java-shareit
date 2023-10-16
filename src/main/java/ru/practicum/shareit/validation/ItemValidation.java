@@ -118,7 +118,7 @@ public class ItemValidation {
     }
 
     public static boolean ownerExists(Item item, Long ownerId) {
-        if (!Objects.equals(item.getOwner(), ownerId)) {
+        if (!Objects.equals(item.getOwner().getId(), ownerId)) {
             throw new OwnerNotFoundException("Invalid owner's id.");
         }
         return true;
