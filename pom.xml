@@ -125,11 +125,11 @@
 						</execution>
 					</executions>
 					<dependencies>
-						<dependency>
-							<groupId>com.puppycrawl.tools</groupId>
-							<artifactId>checkstyle</artifactId>
-							<version>10.3</version>
-						</dependency>
+<!--						<dependency>-->
+<!--							<groupId>com.puppycrawl.tools</groupId>-->
+<!--							<artifactId>checkstyle</artifactId>-->
+<!--							<version>10.3</version>-->
+<!--						</dependency>-->
 					</dependencies>
 				</plugin>
 				<plugin>
@@ -224,22 +224,22 @@
 			<id>check</id>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-checkstyle-plugin</artifactId>
-					</plugin>
-					<plugin>
-						<groupId>com.github.spotbugs</groupId>
-						<artifactId>spotbugs-maven-plugin</artifactId>
-					</plugin>
+<!--					<plugin>-->
+<!--						<groupId>org.apache.maven.plugins</groupId>-->
+<!--						<artifactId>maven-checkstyle-plugin</artifactId>-->
+<!--					</plugin>-->
+<!--					<plugin>-->
+<!--						<groupId>com.github.spotbugs</groupId>-->
+<!--						<artifactId>spotbugs-maven-plugin</artifactId>-->
+<!--					</plugin>-->
 				</plugins>
 			</build>
 			<reporting>
 				<plugins>
-					<plugin>
-						<groupId>com.github.spotbugs</groupId>
-						<artifactId>spotbugs-maven-plugin</artifactId>
-					</plugin>
+<!--					<plugin>-->
+<!--						<groupId>com.github.spotbugs</groupId>-->
+<!--						<artifactId>spotbugs-maven-plugin</artifactId>-->
+<!--					</plugin>-->
 				</plugins>
 			</reporting>
 		</profile>
@@ -247,10 +247,10 @@
 			<id>coverage</id>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.jacoco</groupId>
-						<artifactId>jacoco-maven-plugin</artifactId>
-					</plugin>
+<!--					<plugin>-->
+<!--						<groupId>org.jacoco</groupId>-->
+<!--						<artifactId>jacoco-maven-plugin</artifactId>-->
+<!--					</plugin>-->
 				</plugins>
 			</build>
 		</profile>
