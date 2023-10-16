@@ -33,10 +33,10 @@ import java.time.LocalDateTime;
 @Service
 public class ItemServiceImpl implements ItemService {
 
-    private ItemRepository itemRepository;
-    private UserRepository userRepository;
-    private BookingRepository bookingRepository;
-    private CommentRepository commentRepository;
+    private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
+    private final BookingRepository bookingRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
     public ItemServiceImpl(ItemRepository itemRepository,

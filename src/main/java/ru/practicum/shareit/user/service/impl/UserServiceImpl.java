@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.practicum.shareit.exception.UserDoesNotExistException;
-import ru.practicum.shareit.user.dao.UserDao;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 import ru.practicum.shareit.user.service.UserService;
@@ -17,7 +16,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository repository;
+    private final UserRepository repository;
 
     @Autowired
     public UserServiceImpl(UserRepository repository) {

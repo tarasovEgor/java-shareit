@@ -28,9 +28,9 @@ import java.time.LocalDateTime;
 @Service
 public class BookingServiceImpl implements BookingService {
 
-    private BookingRepository bookingRepository;
-    private UserRepository userRepository;
-    private ItemRepository itemRepository;
+    private final BookingRepository bookingRepository;
+    private final UserRepository userRepository;
+    private final ItemRepository itemRepository;
 
     @Autowired
     public BookingServiceImpl(BookingRepository bookingRepository,
