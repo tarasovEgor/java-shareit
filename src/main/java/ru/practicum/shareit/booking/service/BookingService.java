@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking.service;
 
-import ru.practicum.shareit.booking.constant.BookingState;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.Booking;
 

@@ -1,11 +1,8 @@
 package ru.practicum.shareit.item.dto;
 
-
 import lombok.Data;
-import ru.practicum.shareit.booking.dto.BookingDto;
+
 import ru.practicum.shareit.booking.dto.BookingWithBookerIdDto;
-import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.request.model.ItemRequest;
 
 import java.util.List;

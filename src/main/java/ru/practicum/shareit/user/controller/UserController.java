@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 
-import javax.validation.Valid;
-
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/users")

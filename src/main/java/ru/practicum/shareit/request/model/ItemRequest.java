@@ -1,6 +1,5 @@
 package ru.practicum.shareit.request.model;
 
-import lombok.Builder;
 import lombok.Data;
 
 import ru.practicum.shareit.user.model.User;

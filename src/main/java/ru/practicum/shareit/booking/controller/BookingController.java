@@ -2,12 +2,10 @@ package ru.practicum.shareit.booking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.booking.constant.BookingState;
-import ru.practicum.shareit.booking.constant.BookingStatus;
+
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.service.BookingService;
-import ru.practicum.shareit.validation.BookingValidation;
 
 import java.util.List;
 

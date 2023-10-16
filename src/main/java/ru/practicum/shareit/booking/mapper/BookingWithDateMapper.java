@@ -1,10 +1,5 @@
 package ru.practicum.shareit.booking.mapper;
 
-import ru.practicum.shareit.booking.model.Booking;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class BookingWithDateMapper {
 
 //    public static BookingWithDateDto toBookingWithDateDto(Booking booking) {

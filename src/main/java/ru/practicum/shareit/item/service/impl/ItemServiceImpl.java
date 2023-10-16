@@ -2,16 +2,13 @@ package ru.practicum.shareit.item.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.booking.constant.BookingState;
-import ru.practicum.shareit.booking.constant.BookingStatus;
+
 import ru.practicum.shareit.booking.dto.BookingWithBookerIdDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.exception.*;
-import ru.practicum.shareit.item.dao.ItemDao;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemWithBookingDto;
@@ -22,18 +19,15 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.CommentRepository;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
-import ru.practicum.shareit.validation.CommentValidation;
 import ru.practicum.shareit.validation.ItemValidation;
-import ru.practicum.shareit.validation.UserValidation;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
+import java.time.LocalDateTime;
 
 @Service
 public class ItemServiceImpl implements ItemService {

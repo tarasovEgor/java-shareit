@@ -1,16 +1,15 @@
 package ru.practicum.shareit.validation;
 
 import org.apache.commons.lang3.EnumUtils;
+
 import ru.practicum.shareit.booking.constant.BookingState;
-import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exception.BookingNotFoundException;
 import ru.practicum.shareit.exception.InvalidBookingDateException;
 import ru.practicum.shareit.exception.UnsupportedBookingStatusException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
+
 import java.util.Optional;
 
 public class BookingValidation {

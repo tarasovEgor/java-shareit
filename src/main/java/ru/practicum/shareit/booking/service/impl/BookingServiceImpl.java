@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking.service.impl;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ru.practicum.shareit.booking.constant.BookingState;
 import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -18,11 +19,11 @@ import ru.practicum.shareit.user.repository.UserRepository;
 import ru.practicum.shareit.validation.BookingValidation;
 import ru.practicum.shareit.validation.UserValidation;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import java.time.LocalDateTime;
 
 @Service
 public class BookingServiceImpl implements BookingService {
