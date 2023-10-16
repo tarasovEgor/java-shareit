@@ -65,8 +65,8 @@ public class BookingServiceImpl implements BookingService {
         Optional<User> owner = userRepository.findById(ownerId);
         Optional<Booking> booking = bookingRepository.findById(bookingId);
 
-        UserValidation.OptionalOfUserIsNotEmpty(owner);
-        BookingValidation.OptionalOfBookingIsNotEmpty(booking);
+        UserValidation.optionalOfUserIsNotEmpty(owner);
+        BookingValidation.optionalOfBookingIsNotEmpty(booking);
 
 //        if (!Objects.equals(booking.get().getBooker().getId(), booker.get().getId()) ||
 //            !Objects.equals(booking.get().getItem().getOwner().getId(), booker.get())) {
@@ -95,8 +95,8 @@ public class BookingServiceImpl implements BookingService {
         Optional<User> booker = userRepository.findById(bookerId);
         Optional<Booking> booking = bookingRepository.findById(bookingId);
 
-        UserValidation.OptionalOfUserIsNotEmpty(booker);
-        BookingValidation.OptionalOfBookingIsNotEmpty(booking);
+        UserValidation.optionalOfUserIsNotEmpty(booker);
+        BookingValidation.optionalOfBookingIsNotEmpty(booking);
 
         if (Objects.equals(booker.get().getId(), booking.get().getBooker().getId())) {
             return bookingRepository.findBookingByIdAndBooker(bookingId, booker.get());

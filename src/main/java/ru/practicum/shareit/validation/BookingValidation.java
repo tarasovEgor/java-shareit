@@ -26,7 +26,7 @@ public class BookingValidation {
         }
     }
 
-    public static boolean OptionalOfBookingIsNotEmpty(Optional<Booking> booking) {
+    public static boolean optionalOfBookingIsNotEmpty(Optional<Booking> booking) {
         if (booking.isEmpty()) {
             throw new BookingNotFoundException("Booking doesn't exist.");
         } else {

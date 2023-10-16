@@ -61,7 +61,7 @@ public class UserValidation {
         return optUser;
     }
 
-    public static boolean OptionalOfUserIsNotEmpty(Optional<User> user) {
+    public static boolean optionalOfUserIsNotEmpty(Optional<User> user) {
         if (user.isEmpty()) {
             throw new UserDoesNotExistException("User doesn't exist.");
         } else {
