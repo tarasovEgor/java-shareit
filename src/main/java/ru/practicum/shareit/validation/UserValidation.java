@@ -69,20 +69,4 @@ public class UserValidation {
         }
     }
 
-    public static User isUserValidForUpdate(User user, User updatedUser) {
-        if (user == null) {
-            throw new UserDoesNotExistException("User does not exist.");
-        }
-        if (user.getName() != null && user.getEmail() != null) {
-            updatedUser.setName(user.getName());
-            updatedUser.setEmail(user.getEmail());
-        } else if (user.getName() != null) {
-            updatedUser.setName(user.getName());
-        } else if (user.getEmail() != null) {
-            updatedUser.setEmail(user.getEmail());
-        }
-        return updatedUser;
-    }
-
-
 }

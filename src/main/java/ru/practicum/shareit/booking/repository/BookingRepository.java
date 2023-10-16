@@ -79,28 +79,17 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             " order by b.start DESC")
     List<Booking> findAllBookingsByItemOwnerAndStatus(User owner, BookingStatus status);
 
+    //GET ALL ITEMS
     Booking findFirstByItemOwnerAndStartIsBeforeOrderByStartDesc(User owner, LocalDateTime now);
 
     Booking findFirstByItemOwnerAndStartIsAfterOrderByStartAsc(User owner, LocalDateTime now);
 
+    //GET ITEM BY ID
+    Booking findFirstByItemOwnerAndStartIsAfterAndStatusOrderByStartAsc(User owner, LocalDateTime now, BookingStatus status);
 
-    ///////////////////////////
+    Booking findFirstByItemOwnerAndStartIsBeforeAndStatusOrderByStartDesc(User owner, LocalDateTime now, BookingStatus status);
 
-    Booking findFirstByItemNameAndItemOwnerAndStartIsBeforeOrderByStartDesc(String name, User owner, LocalDateTime now);
-
-
-
-    @Query("select b from Booking as b" +
-            " join b.item as i" +
-            " where i.name = ?1" +
-            " and i.owner = ?2" +
-            " and b.start < ?3" +
-            " order by b.start DESC")
-    Booking findBookingByItemNameAndOwner(String name, User owner, LocalDateTime now);
-    //Booking findFirstByItemOwnerItemNameAndStartIsBeforeOrderByStartDesc(User owner, String name, LocalDateTime now);
-
-    //Booking findFirstByItemOwnerAndEndIsBeforeOrEndIsEqualOrderByStartDesc(User owner, LocalDateTime now);
-
+    //SAVE COMMENT
     @Query("select b from Booking as b" +
             " join b.item as i" +
             " where i.id = ?1" +
@@ -109,34 +98,4 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             " order by b.start DESC")
     List<Booking> findBookingsByItemAndOwnerOrderByStartDesc(long itemId, User owner, LocalDateTime now);
 
-    /////
-    //TRIAL
-    //////|
-    //    |
-    //    |
-    //    v
-
-//    @Query("select b from Booking as b" +
-//            " join b.item as i" +
-//            " where i.id = ?1" +
-//            " and b.start < ?2" +
-//            " order by b.start DESC")
-//    Booking findFirstByItemIdOwnerAndStartIsBeforeOrderByStartDesc(long itemId, LocalDateTime now);
-//
-//    @Query("select b from Booking as b" +
-//            " join b.item as i" +
-//            " where i.id = ?1" +
-//            " and b.start > ?2" +
-//            " order by b.start ASC")
-//    Booking findFirstByItemIdOwnerAndStartIsAfterOrderByStartAsc(long itemId, LocalDateTime now);
-
-//    @Query("select b from Booking as b" +
-//            " join b.item as i" +
-//            " where i.id = ?1 and b.start > now()")
-//    Booking findAllBookingsByItemIdAndStartDateInFuture(long itemId);
-//
-//    @Query("select b from Booking as b" +
-//            " join b.item as i" +
-//            " where i.id = ?1 and b.start < now()")
-//    Booking findAllBookingsByItemAndStartDateInPast(long itemId);
 }

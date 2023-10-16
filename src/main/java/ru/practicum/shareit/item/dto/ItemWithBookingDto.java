@@ -18,14 +18,6 @@ public class ItemWithBookingDto {
     private BookingWithBookerIdDto lastBooking;
     private List<CommentDto> comments;
 
-//    public ItemWithBookingDto(Long id, String name, String description, Boolean available, ItemRequest request) {
-//        this.id = id;
-//        this.name = name;
-//        this.description = description;
-//        this.available = available;
-//        this.request = request;
-//    }
-//
     public ItemWithBookingDto(Long id, String name, String description, Boolean available,
                               ItemRequest request, BookingWithBookerIdDto nextBooking,
                               BookingWithBookerIdDto lastBooking, List<CommentDto> comments) {

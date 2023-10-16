@@ -68,11 +68,6 @@ public class BookingServiceImpl implements BookingService {
         UserValidation.optionalOfUserIsNotEmpty(owner);
         BookingValidation.optionalOfBookingIsNotEmpty(booking);
 
-//        if (!Objects.equals(booking.get().getBooker().getId(), booker.get().getId()) ||
-//            !Objects.equals(booking.get().getItem().getOwner().getId(), booker.get())) {
-//            throw new InvalidBookerOwnerException("Invalid item booker.");
-//        }
-
         if (status) {
             if (!owner.get().getId().equals(booking.get().getItem().getOwner().getId())) {
                 throw new InvalidItemOwnerException("Invalid item owner.");
@@ -153,6 +148,5 @@ public class BookingServiceImpl implements BookingService {
         }
         return BookingMapper.toBookingDto(bookingRepository.findAllBookingsByItemOwner(owner.get()));
     }
-
 
 }

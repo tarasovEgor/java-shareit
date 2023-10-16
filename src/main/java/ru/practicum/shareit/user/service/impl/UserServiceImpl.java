@@ -17,18 +17,15 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserDao userDao;
     private UserRepository repository;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, UserRepository repository) {
-        this.userDao = userDao;
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public User saveUser(User user) {
-        //return userDao.saveUser(user);
         UserValidation.isUserEmailValid(user);
         return repository.save(user);
     }
@@ -42,15 +39,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-       // return userDao.getAllUsers();
         return repository.findAll();
     }
 
     @Override
     @Transactional
     public User updateUser(long id, User user) {
-       // return userDao.updateUser(id, user);
-        //user = UserValidation.isUserValidForUpdate(user, new User());
         if (user.getName() != null && user.getEmail() != null) {
             repository.updateUser(user.getName(), user.getEmail(), id);
         } else if (user.getName() != null) {
@@ -66,7 +60,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(long id) {
-       // userDao.deleteUser(id);
         User user = repository.getReferenceById(id);
         repository.delete(user);
     }

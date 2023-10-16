@@ -19,6 +19,5 @@ public class CommentDto {
         this.text = text;
         this.item = item;
         this.authorName = authorName;
-       // this.created = created;
     }
 }

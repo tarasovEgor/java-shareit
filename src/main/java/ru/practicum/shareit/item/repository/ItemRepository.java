@@ -43,11 +43,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             " and i.available = true")
     List<Item> search(String text);
 
-    @Query("select i from Item i" +
-            " where i.id = ?1 " +
-            " and i.owner = ?2")
-    Item getItemByIdAndOwner(long itemId, User owner);
-
     List<Item> findAllByOwnerOrderByIdAsc(User owner);
 
 

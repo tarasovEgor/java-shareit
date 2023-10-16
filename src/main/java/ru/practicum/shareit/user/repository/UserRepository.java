@@ -27,5 +27,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
             " where u.id = ?2")
     void updateUserEmail(String email, Long userId);
 
-
 }

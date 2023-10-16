@@ -20,8 +20,12 @@ public class BookingWithBookerIdDto {
 
     }
 
-    public BookingWithBookerIdDto(Long id, LocalDateTime start, LocalDateTime end, Item item,
-                                  Long bookerId, BookingStatus status) {
+    public BookingWithBookerIdDto(Long id,
+                                  LocalDateTime start,
+                                  LocalDateTime end,
+                                  Item item,
+                                  Long bookerId,
+                                  BookingStatus status) {
         this.id = id;
         this.start = start;
         this.end = end;

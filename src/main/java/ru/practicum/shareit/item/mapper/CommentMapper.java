@@ -9,16 +9,6 @@ import java.util.List;
 
 public class CommentMapper {
 
-//    public static Comment toComment(CommentDto commentDto, Item item, User author) {
-//        return new Comment(
-//                commentDto.getId(),
-//                commentDto.getText(),
-//                item,
-//                author,
-//                commentDto.getCreated()
-//        );
-//    }
-
     public static CommentDto toCommentDto(Comment comment, Item item, String authorName) {
         return new CommentDto(
                 comment.getId(),

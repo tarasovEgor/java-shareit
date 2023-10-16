@@ -22,5 +22,4 @@ public interface ItemService {
 
     List<ItemDto> searchItem(String text);
 
-
 }

@@ -10,9 +10,6 @@ import ru.practicum.shareit.user.model.User;
 import java.util.*;
 
 public class ItemValidation {
-    public static boolean isItemValid(Item item) {
-        return true;
-    }
 
     public static boolean isItemDtoValid(ItemDto itemDto, long ownerId, List<User> users) {
         LinkedList<Long> userIds = new LinkedList<>();
@@ -31,7 +28,7 @@ public class ItemValidation {
             throw new InvalidItemDescriptionException("Item description can't be null.");
         }
         if (itemDto.getAvailable() == null) {
-            throw new InvalidAvailableFieldException("Invalid field can't be null.");
+            throw new InvalidAvailableFieldException("Invalid field, available can't be null.");
         }
         return true;
     }
@@ -44,11 +41,10 @@ public class ItemValidation {
             throw new InvalidItemDescriptionException("Item description can't be null.");
         }
         if (itemDto.getAvailable() == null) {
-            throw new InvalidAvailableFieldException("Invalid field can't be null.");
+            throw new InvalidAvailableFieldException("Invalid field, available can't be null.");
         }
         return true;
     }
-
 
     public static Item isItemValidForUpdate(Item item, ItemDto itemDto, Map<Long, Item> items) {
         if (itemDto.getName() != null &&
@@ -113,7 +109,6 @@ public class ItemValidation {
             itemRepository.updateItemAvailable(itemDto.getAvailable(), itemId, owner);
             return item.get();
         }
-
         return null;
     }
 
@@ -123,6 +118,5 @@ public class ItemValidation {
         }
         return true;
     }
-
 
 }

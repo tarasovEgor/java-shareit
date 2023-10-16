@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.booking.dto.BookingWithBookerIdDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
@@ -32,15 +33,16 @@ import java.time.LocalDateTime;
 @Service
 public class ItemServiceImpl implements ItemService {
 
-    //private ItemDao itemDao;
     private ItemRepository itemRepository;
     private UserRepository userRepository;
     private BookingRepository bookingRepository;
     private CommentRepository commentRepository;
 
     @Autowired
-    public ItemServiceImpl(ItemRepository itemRepository, UserRepository userRepository,
-                           BookingRepository bookingRepository, CommentRepository commentRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository,
+                           UserRepository userRepository,
+                           BookingRepository bookingRepository,
+                           CommentRepository commentRepository) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.bookingRepository = bookingRepository;
@@ -49,38 +51,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item saveItem(ItemDto itemDto, long ownerId) {
-        //return itemDao.saveItem(itemDto, ownerId);
         ItemValidation.isItemDtoValid(itemDto);
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new UserDoesNotExistException("Owner doesn't exist."));
         return itemRepository.save(ItemMapper.toItem(itemDto, owner));
     }
 
-//    @Override
-//    public Comment saveComment(CommentDto commentDto, long itemId, long authorId) {
-//        if (commentDto.getText().isEmpty()) {
-//            throw new InvalidCommentException("Can't create a comment without text.");
-//        }
-//
-//        Item item = itemRepository.findById(itemId)
-//                .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist."));
-//        User author = userRepository.findById(authorId)
-//                .orElseThrow(() -> new UserDoesNotExistException("Author doesn't exist."));
-//
-//       // CommentValidation.isCommentValid(item.getId(), author, bookingRepository);
-//        List<Booking> booking = bookingRepository
-//                //.findFirstByItemOwnerAndEndIsBeforeOrEndIsEqualOrderByStartDesc(author, LocalDateTime.now());
-//                .findBookingsByItemAndOwnerOrderByStartDesc(item.getId(), author, LocalDateTime.now());
-//
-//        if (!booking.isEmpty()) {
-//            return commentRepository.save(CommentMapper.toComment(commentDto, item, author));
-//
-//        } else {
-//            throw new NoBookingForCommentException("No booking for author was found.");
-//        }
-//    }
-
-    /////////////
     @Override
     public CommentDto saveComment(Comment comment, long itemId, long authorId) {
         if (comment.getText().isEmpty()) {
@@ -90,7 +66,6 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist."));
         Optional<User> author = userRepository.findById(authorId);
-                //.orElseThrow(() -> new UserDoesNotExistException("Author doesn't exist."));
 
         List<Booking> bookings = bookingRepository
                 .findBookingsByItemAndOwnerOrderByStartDesc(item.getId(), author.get(), LocalDateTime.now());
@@ -109,24 +84,12 @@ public class ItemServiceImpl implements ItemService {
                 author.get().getName()
         );
     }
-    /////////////
 
     @Override
     @Transactional
     public Item updateItem(ItemDto itemDto, long itemId, long ownerId) {
-        //  return itemDao.updateItem(itemDto, itemId, ownerId);
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
-//        itemRepository.updateItem(
-//                itemDto.getName(),
-//                itemDto.getDescription(),
-//                itemDto.getAvailable(),
-//                itemId,
-//                owner);
-       // return itemRepository.getReferenceById(itemId);
-//        Item item = ItemMapper.toItem(itemDto, owner);
-//        item.setId(itemId);
-//        return item;
         return ItemValidation.isItemValidForUpdate(itemDto, itemId, owner, itemRepository);
     }
 
@@ -141,13 +104,12 @@ public class ItemServiceImpl implements ItemService {
                         .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
 
         Booking nextBooking = bookingRepository
-                .findFirstByItemOwnerAndStartIsAfterOrderByStartAsc(owner, LocalDateTime.now());
+                .findFirstByItemOwnerAndStartIsAfterAndStatusOrderByStartAsc(owner,
+                        LocalDateTime.now(), BookingStatus.APPROVED);
 
         Booking lastBooking = bookingRepository
-                //.findFirstByItemOwnerAndStartIsBeforeOrderByStartDesc(owner, LocalDateTime.now());
-                //.findBookingByItemNameAndOwner(item.get().getName(), owner, LocalDateTime.now());
-                .findFirstByItemNameAndItemOwnerAndStartIsBeforeOrderByStartDesc(item.get().getName(),
-                        owner, LocalDateTime.now());
+                .findFirstByItemOwnerAndStartIsBeforeAndStatusOrderByStartDesc(owner,
+                        LocalDateTime.now(), BookingStatus.APPROVED);
 
         BookingWithBookerIdDto nextBookingWithBookerId = null;
         BookingWithBookerIdDto lastBookingWithBookerId = null;
@@ -155,41 +117,17 @@ public class ItemServiceImpl implements ItemService {
         if (nextBooking != null && lastBooking != null) {
             nextBookingWithBookerId = BookingMapper.toBookingWithBookerIdDto(nextBooking);
             lastBookingWithBookerId = BookingMapper.toBookingWithBookerIdDto(lastBooking);
+        } else if (nextBooking != null) {
+            nextBookingWithBookerId = BookingMapper.toBookingWithBookerIdDto(nextBooking);
+        } else if (lastBooking != null) {
+            lastBookingWithBookerId = BookingMapper.toBookingWithBookerIdDto(lastBooking);
         }
 
         ItemWithBookingDto itemWithBookingDto = ItemMapper.toItemDtoWithBookings(item.get(),
                 nextBookingWithBookerId, lastBookingWithBookerId,
                 CommentMapper.toCommentDto(commentRepository.findAll()));
 
-//        if (itemWithBookingDto.getNextBooking() != null) {
-//            if (itemWithBookingDto.getNextBooking().getStatus().equals(BookingStatus.REJECTED)) {
-//                itemWithBookingDto.setNextBooking(null);
-//            }
-//        }
-//        if (itemWithBookingDto.getLastBooking() != null) {
-//            if (itemWithBookingDto.getLastBooking().getStatus().equals(BookingStatus.REJECTED)) {
-//                itemWithBookingDto.setLastBooking(null);
-//            }
-//        }
-
         return itemWithBookingDto;
-//        Optional<Item> item = Optional.ofNullable(itemRepository.findById(itemId)
-//                .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist.")));
-//        return ItemMapper.toItemDto(
-//                item.get());
-
-//        Optional<Item> item = itemRepository.findById(itemId);
-//        if (item.isEmpty()) {
-//            throw new ItemDoesNotExistException("Item doesn't exist.");
-//        }
-//                //.orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist."));
-//        return ItemMapper.toItemDtoWithBookings(item.get(),
-//                BookingWithDateMapper.toBookingWithDateDto(
-//                        bookingRepository.findAllBookingsByItemIdAndStartDateInFuture(itemId)),
-//                BookingWithDateMapper.toBookingWithDateDto(
-//                        bookingRepository.findAllBookingsByItemAndStartDateInPast(itemId))
-//                );
-
     }
 
     @Override
@@ -207,63 +145,13 @@ public class ItemServiceImpl implements ItemService {
         } else {
             return null;
         }
-
-        //        for (Item i : items) {
-//            itemWithBookingDtos.add(ItemMapper.toItemDtoWithBookings(
-//                    itemRepository.getItemByIdAndOwner(i.getId(), owner),
-//                    bookingRepository.findFirstByItemIdOwnerAndStartIsBeforeOrderByStartDesc(i.getId(), LocalDateTime.now()),
-//                    bookingRepository.findFirstByItemIdOwnerAndStartIsAfterOrderByStartAsc(i.getId(), LocalDateTime.now())
-//                    ));
-//        }
-
-//        itemWithBookingDtos = ItemMapper.toItemDtoWithBookings(
-//                itemRepository.findAllByOwnerOrderByIdAsc(owner),
-//                BookingMapper.toBookingWithBookerIdDto(bookingRepository.findAllBookingsByItemOwner(owner)),
-//                BookingMapper.toBookingWithBookerIdDto(bookingRepository.)
-//                )
-
-
-
-
-
-
-
-
-        ////////////////////THE PART THAT WORKED BUT SHITTY////////////////////////////////
-//        return ItemMapper.toItemDtoWithBookings(itemRepository.findAllByOwnerOrderByIdAsc(owner),
-//                BookingMapper.toBookingWithBookerIdDto(bookingRepository
-//                        .findFirstByItemOwnerAndStartIsAfterOrderByStartAsc(owner, LocalDateTime.now())),
-//                BookingMapper.toBookingWithBookerIdDto(bookingRepository
-//                        .findFirstByItemOwnerAndStartIsBeforeOrderByStartDesc(owner, LocalDateTime.now()))
-//        );
-
-
-
-
-
-
-        //return itemDao.getAllItems(ownerId);
-//        List<Item> items = itemRepository.findAll();
-//        return ItemMapper.toItemDto(items);
-//        List<Item> ownersItems = new ArrayList<>();
-//        for (Item i : itemRepository.findAll()) {
-//            if (i.getOwner().getId() == ownerId) {
-//                ownersItems.add(i);
-//            }
-//        }
-//        return ItemMapper.toItemDto(ownersItems);
-
     }
 
     @Override
     public List<ItemDto> searchItem(String text) {
-       // return itemDao.searchItem(text);
         if (text.isEmpty()) {
             return new ArrayList<>();
         }
         return ItemMapper.toItemDto(itemRepository.search(text));
     }
-
-
-
 }

@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 
 public class ItemMapper {
 
-
     public static ItemDto toItemDto(Item item) {
        return new ItemDto(
                item.getId(),
@@ -32,8 +31,10 @@ public class ItemMapper {
        );
    }
 
-   public static ItemWithBookingDto toItemDtoWithBookings(Item item, BookingWithBookerIdDto nextBooking,
-                                                          BookingWithBookerIdDto lastBooking, List<CommentDto> comments) {
+   public static ItemWithBookingDto toItemDtoWithBookings(Item item,
+                                                          BookingWithBookerIdDto nextBooking,
+                                                          BookingWithBookerIdDto lastBooking,
+                                                          List<CommentDto> comments) {
        return new ItemWithBookingDto(
                item.getId(),
                item.getName(),
@@ -46,8 +47,11 @@ public class ItemMapper {
        );
    }
 
-   public static List<ItemWithBookingDto> toItemDtoWithBookings(List<Item> items, List<Booking> bookings, User owner,
-                                                                ItemRepository iRepo, BookingRepository bRepo,
+   public static List<ItemWithBookingDto> toItemDtoWithBookings(List<Item> items,
+                                                                List<Booking> bookings,
+                                                                User owner,
+                                                                ItemRepository iRepo,
+                                                                BookingRepository bRepo,
                                                                 List<CommentDto> comments) {
 
        List<ItemWithBookingDto> dtos = new ArrayList<>();
@@ -85,23 +89,9 @@ public class ItemMapper {
                         )
                 );
             }
-
        }
-
        return dtos;
    }
-
-
-//   public static void toItem(ItemDto itemDto, long ownerId) {
-//       return new Item(
-//               itemDto.getName(),
-//               itemDto.getDescription(),
-//               itemDto.getAvailable(),
-//               ownerId,
-//               itemDto.getRequest() != null ? itemDto.getRequest() : null
-//       );
-//
-//   }
 
     public static Item toItem(ItemDto itemDto, User owner) {
        Item item = new Item();
