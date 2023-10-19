@@ -8,7 +8,6 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
