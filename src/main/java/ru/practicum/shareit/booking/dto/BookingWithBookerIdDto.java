@@ -9,15 +9,15 @@ import java.time.LocalDateTime;
 
 @Data
 public class BookingWithBookerIdDto {
-    private Long id;
+    private final Long id;
     private LocalDateTime start;
     private LocalDateTime end;
     private Item item;
     private Long bookerId;
     private BookingStatus status;
 
-    public BookingWithBookerIdDto() {
-
+    public BookingWithBookerIdDto(Long id) {
+        this.id = id;
     }
 
     public BookingWithBookerIdDto(Long id,

@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.practicum.shareit.exception.UserDoesNotExistException;
+import ru.practicum.shareit.user.dao.UserDao;
+import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 import ru.practicum.shareit.user.service.UserService;
@@ -24,26 +27,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveUser(User user) {
+    public UserDto saveUser(User user) {
         UserValidation.isUserEmailValid(user);
-        return repository.save(user);
+        return UserMapper.toUserDto(repository.save(user));
     }
 
     @Override
-    public Optional<User> getUserById(long id) {
+    public UserDto getUserById(long id) {
         Optional<User> user = repository.findById(id);
         if (user.isEmpty()) throw new UserDoesNotExistException("User doesn't exist.");
-        else return user;
+        else return UserMapper.toUserDto(user.get());
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return repository.findAll();
+    public List<UserDto> getAllUsers() {
+        return UserMapper.toUserDto(repository.findAll());
     }
 
     @Override
     @Transactional
-    public User updateUser(long id, User user) {
+    public UserDto updateUser(long id, User user) {
         if (user.getName() != null && user.getEmail() != null) {
             repository.updateUser(user.getName(), user.getEmail(), id);
         } else if (user.getName() != null) {
@@ -54,7 +57,7 @@ public class UserServiceImpl implements UserService {
             user.setName(repository.getReferenceById(id).getName());
         }
         user.setId(id);
-        return user;
+        return UserMapper.toUserDto(user);
     }
 
     @Override

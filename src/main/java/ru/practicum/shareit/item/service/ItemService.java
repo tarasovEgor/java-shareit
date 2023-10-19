@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface ItemService {
 
-    Item saveItem(ItemDto itemDto, long ownerId);
+    ItemDto saveItem(Item item, long ownerId);
 
     CommentDto saveComment(Comment comment, long itemId, long authorId);
 
-    Item updateItem(ItemDto itemDto, long itemId, long ownerId);
+    ItemDto updateItem(Item item, long itemId, long ownerId);
 
     ItemWithBookingDto getItemById(long itemId, long ownerId);
 

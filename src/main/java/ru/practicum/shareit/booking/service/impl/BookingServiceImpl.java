@@ -42,9 +42,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking saveBooking(BookingDto bookingDto, long bookerId) {
+    public BookingDto saveBooking(BookingDto bookingDto, long bookerId) {
         Optional<Item> item = Optional.ofNullable(itemRepository.findById(bookingDto.getItemId())
                 .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist.")));
+
         if (item.get().getOwner().getId().equals(bookerId)) {
             throw new InvalidItemOwnerException("Invalid item owner.");
         }
@@ -54,14 +55,22 @@ public class BookingServiceImpl implements BookingService {
         if (bookingDto.getStart() == null || bookingDto.getEnd() == null) {
             throw new InvalidBookingDateException("Invalid booking date.");
         }
+
         BookingValidation.isBookingDateValid(bookingDto.getStart(), bookingDto.getEnd());
         Optional<User> booker = userRepository.findById(bookerId);
-        return bookingRepository.save(BookingMapper.toBooking(bookingDto, item.get(), booker.get()));
+
+        return BookingMapper.toBookingDto(
+                bookingRepository.save(BookingMapper.toBooking(
+                        bookingDto,
+                        item.get(),
+                        booker.get()
+                ))
+        );
     }
 
     @Override
     @Transactional
-    public Booking updateBookingStatus(long bookingId, Boolean status, long ownerId) {
+    public BookingDto updateBookingStatus(long bookingId, Boolean status, long ownerId) {
         Optional<User> owner = userRepository.findById(ownerId);
         Optional<Booking> booking = bookingRepository.findById(bookingId);
 
@@ -82,11 +91,11 @@ public class BookingServiceImpl implements BookingService {
             bookingRepository.updateBookingStatus(BookingStatus.REJECTED,bookingId, owner.get());
             booking.get().setStatus(BookingStatus.REJECTED);
         }
-        return booking.get();
+        return BookingMapper.toBookingDto(booking.get());
     }
 
     @Override
-    public Booking getBookingById(long bookingId, long bookerId) {
+    public BookingDto getBookingById(long bookingId, long bookerId) {
         Optional<User> booker = userRepository.findById(bookerId);
         Optional<Booking> booking = bookingRepository.findById(bookingId);
 
@@ -94,9 +103,13 @@ public class BookingServiceImpl implements BookingService {
         BookingValidation.optionalOfBookingIsNotEmpty(booking);
 
         if (Objects.equals(booker.get().getId(), booking.get().getBooker().getId())) {
-            return bookingRepository.findBookingByIdAndBooker(bookingId, booker.get());
+            return BookingMapper.toBookingDto(
+                    bookingRepository.findBookingByIdAndBooker(bookingId, booker.get())
+            );
         } else if (Objects.equals(booker.get().getId(), booking.get().getItem().getOwner().getId())) {
-            return bookingRepository.findBookingByIdAndItemOwner(bookingId, booker.get());
+            return BookingMapper.toBookingDto(
+                    bookingRepository.findBookingByIdAndItemOwner(bookingId, booker.get())
+            );
         } else {
             throw new BookingNotFoundException("Booking doesn't exist.");
         }

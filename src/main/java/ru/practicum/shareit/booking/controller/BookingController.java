@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping(path = "/bookings")
 public class BookingController {
 
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     @Autowired
     public BookingController(BookingService bookingService) {
@@ -21,20 +21,20 @@ public class BookingController {
     }
 
     @PostMapping
-    public Booking saveBooking(@RequestBody BookingDto bookingDto,
+    public BookingDto saveBooking(@RequestBody BookingDto bookingDto,
                                @RequestHeader("X-Sharer-User-Id") long bookerId) {
         return bookingService.saveBooking(bookingDto, bookerId);
     }
 
     @PatchMapping("/{bookingId}")
-    public Booking updateBookingStatus(@PathVariable long bookingId,
+    public BookingDto updateBookingStatus(@PathVariable long bookingId,
                                        @RequestParam Boolean approved,
                                        @RequestHeader("X-Sharer-User-Id") long bookerId) {
         return bookingService.updateBookingStatus(bookingId, approved, bookerId);
     }
 
     @GetMapping("/{bookingId}")
-    public Booking getBookingById(@PathVariable long bookingId,
+    public BookingDto getBookingById(@PathVariable long bookingId,
                                   @RequestHeader("X-Sharer-User-Id") long bookerId) {
         return bookingService.getBookingById(bookingId, bookerId);
     }

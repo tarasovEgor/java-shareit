@@ -2,7 +2,6 @@ package ru.practicum.shareit.validation;
 
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.model.User;
@@ -33,14 +32,14 @@ public class ItemValidation {
         return true;
     }
 
-    public static boolean isItemDtoValid(ItemDto itemDto) {
-        if (itemDto.getName().isEmpty()) {
+    public static boolean isItemDtoValid(Item item) {
+        if (item.getName().isEmpty()) {
             throw new InvalidItemNameException("Item name can't be empty.");
         }
-        if (itemDto.getDescription() == null) {
+        if (item.getDescription() == null) {
             throw new InvalidItemDescriptionException("Item description can't be null.");
         }
-        if (itemDto.getAvailable() == null) {
+        if (item.getAvailable() == null) {
             throw new InvalidAvailableFieldException("Invalid field, available can't be null.");
         }
         return true;
@@ -73,41 +72,80 @@ public class ItemValidation {
         return item;
     }
 
-    public static Item isItemValidForUpdate(ItemDto itemDto,
+    public static ItemDto isItemValidForUpdate(Item item,
                                             long itemId,
                                             User owner,
                                             ItemRepository itemRepository) {
-        Optional<Item> item;
-        if (itemDto.getName() != null &&
-                itemDto.getDescription() != null &&
-                itemDto.getAvailable() != null) {
+        ItemDto itemDto = new ItemDto(itemId);
+        if (item.getName() != null &&
+                item.getDescription() != null &&
+                item.getAvailable() != null) {
+
             itemRepository.updateItem(
-                    itemDto.getName(),
-                    itemDto.getDescription(),
-                    itemDto.getAvailable(),
+                    item.getName(),
+                    item.getDescription(),
+                    item.getAvailable(),
                     itemId,
-                    owner);
-            item = Optional.of(ItemMapper.toItem(itemDto, owner));
-            item.get().setId(itemId);
-            return item.get();
-        } else if (itemDto.getName() != null) {
-            item = Optional.ofNullable(itemRepository.findById(itemId)
-                    .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist.")));
-            item.get().setName(itemDto.getName());
-            itemRepository.updateItemName(itemDto.getName(), itemId, owner);
-            return item.get();
-        } else if (itemDto.getDescription() != null) {
-            item = Optional.ofNullable(itemRepository.findById(itemId)
-                    .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist.")));
-            item.get().setDescription(itemDto.getDescription());
-            itemRepository.updateItemDescription(itemDto.getDescription(), itemId, owner);
-            return item.get();
-        } else if (itemDto.getAvailable() != null) {
-            item = Optional.ofNullable(itemRepository.findById(itemId)
-                    .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist.")));
-            item.get().setAvailable(itemDto.getAvailable());
-            itemRepository.updateItemAvailable(itemDto.getAvailable(), itemId, owner);
-            return item.get();
+                    owner
+            );
+
+            itemDto.setName(item.getName());
+            itemDto.setDescription(item.getDescription());
+            itemDto.setAvailable(item.getAvailable());
+            itemDto.setRequest(item.getRequest());
+
+            return itemDto;
+
+        } else if (item.getName() != null) {
+
+            itemRepository.updateItemName(
+                    item.getName(),
+                    itemId, owner
+            );
+
+            item = itemRepository.findById(itemId)
+                    .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist."));
+
+            itemDto.setName(item.getName());
+            itemDto.setDescription(item.getDescription());
+            itemDto.setAvailable(item.getAvailable());
+            itemDto.setRequest(item.getRequest());
+
+            return itemDto;
+
+        } else if (item.getDescription() != null) {
+
+            itemRepository.updateItemDescription(
+                    item.getDescription(),
+                    itemId, owner
+            );
+
+            item = itemRepository.findById(itemId)
+                    .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist."));
+
+            itemDto.setName(item.getName());
+            itemDto.setDescription(item.getDescription());
+            itemDto.setAvailable(item.getAvailable());
+            itemDto.setRequest(item.getRequest());
+
+            return itemDto;
+
+        } else if (item.getAvailable() != null) {
+
+            itemRepository.updateItemAvailable(
+                    item.getAvailable(),
+                    itemId, owner
+            );
+
+            item = itemRepository.findById(itemId)
+                    .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist."));
+
+            itemDto.setName(item.getName());
+            itemDto.setDescription(item.getDescription());
+            itemDto.setAvailable(item.getAvailable());
+            itemDto.setRequest(item.getRequest());
+
+            return itemDto;
         }
         return null;
     }

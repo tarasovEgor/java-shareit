@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
-    private ItemService itemService;
+    private final ItemService itemService;
 
     @Autowired
     public ItemController(ItemService itemService) {
@@ -24,15 +24,15 @@ public class ItemController {
     }
 
     @PostMapping
-    public Item saveItem(@RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") long ownerId) {
-        return itemService.saveItem(itemDto, ownerId);
+    public ItemDto saveItem(@RequestBody Item item, @RequestHeader("X-Sharer-User-Id") long ownerId) {
+        return itemService.saveItem(item, ownerId);
     }
 
     @PatchMapping("/{itemId}")
-    public Item updateItem(@RequestBody ItemDto itemDto,
+    public ItemDto updateItem(@RequestBody Item item,
                            @PathVariable long itemId,
                            @RequestHeader("X-Sharer-User-Id") long ownerId) {
-        return itemService.updateItem(itemDto, itemId, ownerId);
+        return itemService.updateItem(item, itemId, ownerId);
     }
 
     @GetMapping("/{itemId}")

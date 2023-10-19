@@ -50,11 +50,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item saveItem(ItemDto itemDto, long ownerId) {
-        ItemValidation.isItemDtoValid(itemDto);
+    public ItemDto saveItem(Item item, long ownerId) {
+        ItemValidation.isItemDtoValid(item);
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new UserDoesNotExistException("Owner doesn't exist."));
-        return itemRepository.save(ItemMapper.toItem(itemDto, owner));
+        item.setOwner(owner);
+        return ItemMapper.toItemDto(itemRepository.save(item));
     }
 
     @Override
@@ -87,10 +88,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public Item updateItem(ItemDto itemDto, long itemId, long ownerId) {
+    public ItemDto updateItem(Item item, long itemId, long ownerId) {
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
-        return ItemValidation.isItemValidForUpdate(itemDto, itemId, owner, itemRepository);
+        return ItemValidation.isItemValidForUpdate(item, itemId, owner, itemRepository);
     }
 
     @Override
