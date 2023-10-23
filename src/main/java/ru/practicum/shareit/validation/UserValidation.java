@@ -11,6 +11,16 @@ import java.util.Optional;
 
 public class UserValidation {
 
+    public static boolean isUserEmailValid(User user) {
+        if (user.getEmail() == null) {
+            throw new InvalidEmailException("Please, enter an email address.");
+        }
+        if (!user.getEmail().contains("@")) {
+            throw new InvalidEmailException("Please, enter a valid email address.");
+        }
+        return true;
+    }
+
     public static boolean isUserEmailValid(User user, Map<Long, User> users) {
         for (User u : users.values()) {
             if (Objects.equals(user.getEmail(), u.getEmail())) {
@@ -50,4 +60,13 @@ public class UserValidation {
         users.put(optUser.get().getId(), optUser.get());
         return optUser;
     }
+
+    public static boolean optionalOfUserIsNotEmpty(Optional<User> user) {
+        if (user.isEmpty()) {
+            throw new UserDoesNotExistException("User doesn't exist.");
+        } else {
+            return true;
+        }
+    }
+
 }

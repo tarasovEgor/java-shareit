@@ -1,20 +1,77 @@
 package ru.practicum.shareit.booking.model;
 
-import lombok.Builder;
 import lombok.Data;
 
+import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
-import java.time.LocalDate;
+import javax.persistence.*;
+
+import java.time.LocalDateTime;
+
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
-@Builder(toBuilder = true)
+@Entity
+@Table(
+        name = "bookings",
+        schema = "public"
+)
 public class Booking {
-    private final Long id;
-    private final LocalDate start;
-    private final LocalDate end;
-    private final Item item;
-    private final User booker;
-    private final Boolean status;
+
+    @Id
+    @SequenceGenerator(
+            name = "booking_sequence",
+            sequenceName = "booking_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "booking_sequence"
+    )
+    @Column(
+            name = "id",
+            updatable = false
+    )
+    private Long id;
+
+    @Column(
+            name = "start_date",
+            nullable = false
+    )
+    private LocalDateTime start;
+
+    @Column(
+            name = "end_date",
+            nullable = false
+    )
+    private LocalDateTime end;
+
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    private Item item;
+
+    @ManyToOne
+    @JoinColumn(name = "booker_id")
+    private User booker;
+
+    @Column(
+            name = "status"
+    )
+    private BookingStatus status = BookingStatus.WAITING;
+
+    public Booking() {
+
+    }
+
+    public Booking(LocalDateTime start,
+                   LocalDateTime end,
+                   Item item,
+                   User booker) {
+        this.start = start;
+        this.end = end;
+        this.item = item;
+        this.booker = booker;
+    }
 }

@@ -2,21 +2,73 @@ package ru.practicum.shareit.item.model;
 
 import lombok.Data;
 
+import ru.practicum.shareit.request.model.ItemRequest;
+import ru.practicum.shareit.user.model.User;
+
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.SEQUENCE;
+
 @Data
+@Entity
+@Table(
+        name = "items",
+        schema = "public"
+)
 public class Item {
 
-    private Long id = 0L;
+    @Id
+    @SequenceGenerator(
+            name = "item_sequence",
+            sequenceName = "item_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "item_sequence"
+    )
+    @Column(
+            name = "id",
+            updatable = false
+    )
+    private Long id;
+
+    @Column(
+            name = "name",
+            nullable = false
+    )
     private String name;
+
+    @Column(
+            name = "description",
+            nullable = false
+    )
     private String description;
+
+    @Column(
+            name = "is_available"
+    )
     private Boolean available;
-    private Long owner;
-    private Long request;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "owner_id"
+    )
+    private User owner;
+
+    @ManyToOne
+    @JoinColumn(name = "request_id")
+    private ItemRequest request;
+
+    public Item() {
+
+    }
 
     public Item(String name,
                 String description,
                 Boolean available,
-                Long owner,
-                Long request) {
+                User owner,
+                ItemRequest request) {
         this.name = name;
         this.description = description;
         this.available = available;
