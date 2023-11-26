@@ -102,8 +102,8 @@ public class BookingControllerTest {
         );
 
         booking = new Booking(
-                LocalDateTime.of(2023, 11, 25, 12 , 10, 00),
-                LocalDateTime.of(2023, 11, 26, 12 , 10, 00),
+                LocalDateTime.of(2023,11,25,12, 10, 00),
+                LocalDateTime.of(2023, 11, 26, 12, 10, 00),
                 item,
                 itemBooker
         );
@@ -120,8 +120,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 25, 12 , 10, 00),
-                LocalDateTime.of(2023, 11, 26, 12 , 10, 00),
+                LocalDateTime.of(2023, 11, 25, 12, 10, 00),
+                LocalDateTime.of(2023, 11, 26, 12, 10, 00),
                 item,
                 itemBooker,
                 BookingStatus.WAITING
@@ -153,8 +153,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 25, 12 , 10, 00),
-                LocalDateTime.of(2023, 11, 26, 12 , 10, 00),
+                LocalDateTime.of(2023, 11, 25, 12, 10, 00),
+                LocalDateTime.of(2023, 11, 26, 12, 10, 00),
                 item,
                 itemBooker,
                 BookingStatus.WAITING
@@ -186,8 +186,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 25, 12 , 10, 00),
-                LocalDateTime.of(2023, 11, 26, 12 , 10, 00),
+                LocalDateTime.of(2023, 11, 25, 12, 10, 00),
+                LocalDateTime.of(2023, 11, 26, 12, 10, 00),
                 item,
                 itemBooker,
                 BookingStatus.APPROVED
@@ -217,8 +217,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 25, 12 , 10, 00),
-                LocalDateTime.of(2023, 11, 26, 12 , 10, 00),
+                LocalDateTime.of(2023, 11, 25, 12, 10, 00),
+                LocalDateTime.of(2023, 11, 26, 12, 10, 00),
                 item,
                 itemBooker,
                 BookingStatus.REJECTED
@@ -248,8 +248,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 25, 12 , 10, 0),
-                LocalDateTime.of(2023, 11, 26, 12 , 10, 0),
+                LocalDateTime.of(2023, 11, 25, 12, 10, 0),
+                LocalDateTime.of(2023, 11, 26, 12, 10, 0),
                 item,
                 itemBooker,
                 BookingStatus.WAITING
@@ -281,8 +281,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 25, 12 , 10, 0),
-                LocalDateTime.of(2023, 11, 26, 12 , 10, 0),
+                LocalDateTime.of(2023, 11, 25, 12, 10, 0),
+                LocalDateTime.of(2023, 11, 26, 12, 10, 0),
                 item,
                 itemBooker,
                 BookingStatus.REJECTED
@@ -314,8 +314,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 24, 12 , 10, 0),
-                LocalDateTime.of(2023, 11, 29, 12 , 10, 0),
+                LocalDateTime.of(2023, 11, 24, 12, 10, 0),
+                LocalDateTime.of(2023, 11, 29, 12, 10, 0),
                 item,
                 itemBooker,
                 BookingStatus.WAITING
@@ -346,8 +346,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 20, 12 , 10, 0),
-                LocalDateTime.of(2023, 11, 21, 12 , 10, 0),
+                LocalDateTime.of(2023, 11, 20, 12, 10, 0),
+                LocalDateTime.of(2023, 11, 21, 12, 10, 0),
                 item,
                 itemBooker,
                 BookingStatus.WAITING
@@ -378,8 +378,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 24, 12 , 10, 0),
-                LocalDateTime.of(2023, 11, 29, 12 , 10, 0),
+                LocalDateTime.of(2023, 11, 24, 12, 10, 0),
+                LocalDateTime.of(2023, 11, 29, 12, 10, 0),
                 item,
                 itemBooker,
                 BookingStatus.WAITING
@@ -410,8 +410,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 24, 12 , 10, 0),
-                LocalDateTime.of(2023, 11, 29, 12 , 10, 0),
+                LocalDateTime.of(2023, 11, 24, 12, 10, 0),
+                LocalDateTime.of(2023, 11, 29, 12, 10, 0),
                 item,
                 itemBooker,
                 BookingStatus.REJECTED
@@ -442,8 +442,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 24, 12 , 10, 0),
-                LocalDateTime.of(2023, 11, 29, 12 , 10, 0),
+                LocalDateTime.of(2023, 11, 24, 12, 10, 0),
+                LocalDateTime.of(2023, 11, 29, 12, 10, 0),
                 item,
                 itemBooker,
                 BookingStatus.WAITING
@@ -474,8 +474,8 @@ public class BookingControllerTest {
         BookingDto bookingDto = new BookingDto(
                 1L,
                 1L,
-                LocalDateTime.of(2023, 11, 20, 12 , 10, 0),
-                LocalDateTime.of(2023, 11, 21, 12 , 10, 0),
+                LocalDateTime.of(2023, 11, 20, 12, 10, 0),
+                LocalDateTime.of(2023, 11, 21, 12, 10, 0),
                 item,
                 itemBooker,
                 BookingStatus.WAITING
