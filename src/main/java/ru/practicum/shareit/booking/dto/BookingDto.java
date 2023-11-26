@@ -33,4 +33,5 @@ public class BookingDto {
         this.booker = booker;
         this.status = status;
     }
+
 }

@@ -92,7 +92,7 @@ public class ItemValidation {
             itemDto.setName(item.getName());
             itemDto.setDescription(item.getDescription());
             itemDto.setAvailable(item.getAvailable());
-            itemDto.setRequest(item.getRequest());
+            itemDto.setRequestId(item.getRequestId());
 
             return itemDto;
 
@@ -109,7 +109,7 @@ public class ItemValidation {
             itemDto.setName(item.getName());
             itemDto.setDescription(item.getDescription());
             itemDto.setAvailable(item.getAvailable());
-            itemDto.setRequest(item.getRequest());
+            itemDto.setRequestId(item.getRequestId());
 
             return itemDto;
 
@@ -126,7 +126,7 @@ public class ItemValidation {
             itemDto.setName(item.getName());
             itemDto.setDescription(item.getDescription());
             itemDto.setAvailable(item.getAvailable());
-            itemDto.setRequest(item.getRequest());
+            itemDto.setRequestId(item.getRequestId());
 
             return itemDto;
 
@@ -143,7 +143,7 @@ public class ItemValidation {
             itemDto.setName(item.getName());
             itemDto.setDescription(item.getDescription());
             itemDto.setAvailable(item.getAvailable());
-            itemDto.setRequest(item.getRequest());
+            itemDto.setRequestId(item.getRequestId());
 
             return itemDto;
         }

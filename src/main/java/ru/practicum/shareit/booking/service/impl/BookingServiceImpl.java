@@ -1,5 +1,8 @@
 package ru.practicum.shareit.booking.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,8 +139,47 @@ public class BookingServiceImpl implements BookingService {
             }
         }
         return BookingMapper.toBookingDto(bookingRepository.findAllBookingsByBooker(booker.get()));
-
     }
+
+    @Override
+    public List<BookingDto> getAllBookingsByBooker(String status, long bookerId, Integer from, Integer size) {
+        BookingValidation.isBookingStateValid(status);
+        Page<Booking> page;
+        User booker = userRepository.findById(bookerId)
+                .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
+        if (status == null && (from != null && size != null)) {
+            page = bookingRepository
+                    .findAllByBookerOrderByStartDesc(booker, PageRequest.of(from, size));
+            return BookingMapper.toBookingDto(page.getContent());
+        }
+        switch (Objects.requireNonNull(status)) {
+            case ("WAITING"):
+                page = bookingRepository
+                        .findAllByBookerAndStatusOrderByStartDesc(
+                                booker, BookingStatus.WAITING, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case ("REJECTED"):
+                page = bookingRepository
+                        .findAllByBookerAndStatusOrderByStartDesc(
+                                booker, BookingStatus.REJECTED, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case ("CURRENT"):
+                page = bookingRepository
+                        .findAllByBookerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(
+                                booker, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case ("PAST"):
+                page = bookingRepository
+                        .findAllByBookerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(
+                                booker, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            default:
+                page = bookingRepository
+                        .findAllByBookerOrderByStartDesc(booker, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+        }
+    }
+
 
     @Override
     public List<BookingDto> getAllBookingsByItemOwner(String state, long ownerId) {
@@ -160,6 +202,45 @@ public class BookingServiceImpl implements BookingService {
             }
         }
         return BookingMapper.toBookingDto(bookingRepository.findAllBookingsByItemOwner(owner.get()));
+    }
+
+    @Override
+    public List<BookingDto> getAllBookingsByItemOwner(String status, long ownerId, Integer from, Integer size) {
+        BookingValidation.isBookingStateValid(status);
+        Page<Booking> page;
+        User owner = userRepository.findById(ownerId)
+                .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
+        if (status == null && (from != null && size != null)) {
+            page = bookingRepository
+                    .findAllByItemOwnerOrderByStartDesc(owner, PageRequest.of(from, size));
+            return BookingMapper.toBookingDto(page.getContent());
+        }
+        switch (Objects.requireNonNull(status)) {
+            case ("WAITING"):
+                page = bookingRepository
+                        .findAllByItemOwnerAndStatusOrderByStartDesc(
+                                owner, BookingStatus.WAITING, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case ("REJECTED"):
+                page = bookingRepository
+                        .findAllByItemOwnerAndStatusOrderByStartDesc(
+                                owner, BookingStatus.REJECTED, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case ("CURRENT"):
+                page = bookingRepository
+                        .findAllByItemOwnerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(
+                                owner, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case ("PAST"):
+                page = bookingRepository
+                        .findAllByItemOwnerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(
+                                owner, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            default:
+                page = bookingRepository
+                        .findAllByItemOwnerOrderByStartDesc(owner, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+        }
     }
 
 }

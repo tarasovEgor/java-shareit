@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.practicum.shareit.booking.dto.BookingWithBookerIdDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
@@ -9,6 +10,8 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemWithBookingDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
+import ru.practicum.shareit.request.model.ItemRequest;
+import ru.practicum.shareit.request.repository.ItemRequestRepository;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.ArrayList;
@@ -20,15 +23,28 @@ import java.time.LocalDateTime;
 
 public class ItemMapper {
 
-    public static ItemDto toItemDto(Item item) {
-       return new ItemDto(
-               item.getId(),
-               item.getName(),
-               item.getDescription(),
-               item.getAvailable(),
-               item.getRequest() != null ? item.getRequest() : null
+    @Autowired
+    private static ItemRequestRepository itemRequestRepository;
 
-       );
+    public static ItemDto toItemDto(Item item) {
+        if (item.getRequestId() != null) {
+            return new ItemDto(
+                    item.getId(),
+                    item.getName(),
+                    item.getDescription(),
+                    item.getAvailable(),
+                    item.getRequestId()
+            );
+        } else {
+            return new ItemDto(
+                    item.getId(),
+                    item.getName(),
+                    item.getDescription(),
+                    item.getAvailable(),
+                    null
+            );
+        }
+
    }
 
    public static ItemWithBookingDto toItemDtoWithBookings(Item item,
@@ -40,7 +56,7 @@ public class ItemMapper {
                item.getName(),
                item.getDescription(),
                item.getAvailable(),
-               item.getRequest() != null ? item.getRequest() : null,
+               item.getRequestId(),
                nextBooking,
                lastBooking,
                comments
@@ -95,11 +111,13 @@ public class ItemMapper {
 
     public static Item toItem(ItemDto itemDto, User owner) {
        Item item = new Item();
+       //Optional<ItemRequest> itemRequest = itemRequestRepository.findById(itemDto.getRequestId());
+
        item.setOwner(owner);
        item.setName(itemDto.getName());
        item.setDescription(itemDto.getDescription());
        item.setAvailable(itemDto.getAvailable());
-       item.setRequest(itemDto.getRequest());
+       item.setRequestId(itemDto.getRequestId());
        return item;
     }
 

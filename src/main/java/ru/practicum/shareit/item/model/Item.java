@@ -56,9 +56,12 @@ public class Item {
     )
     private User owner;
 
-    @ManyToOne
-    @JoinColumn(name = "request_id")
-    private ItemRequest request;
+//    @ManyToOne
+//    @JoinColumn(name = "request_id")
+//    @Column(
+//            name = "request_id"
+//    )
+    private Long requestId;
 
     public Item() {
 
@@ -68,11 +71,11 @@ public class Item {
                 String description,
                 Boolean available,
                 User owner,
-                ItemRequest request) {
+                Long requestId) {
         this.name = name;
         this.description = description;
         this.available = available;
         this.owner = owner;
-        this.request = request;
+        this.requestId = requestId;
     }
 }

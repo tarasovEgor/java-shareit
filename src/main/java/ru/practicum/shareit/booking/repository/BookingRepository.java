@@ -1,5 +1,8 @@
 package ru.practicum.shareit.booking.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,6 +37,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             " order by b.start DESC")
     List<Booking> findAllBookingsByBooker(User booker);
 
+    //Page<Booking> findAllByBookerOrderByStartDesc(User booker, PageRequest pageRequest);
+
     @Query("select b from Booking as b" +
             " join b.item as i" +
             " where i.owner = ?1" +
@@ -57,6 +62,12 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             " b.start < ?2 and b.end <= ?2" +
             " order by b.start DESC")
     List<Booking> findAllBookingsByBookerAndStatusPast(User booker, LocalDateTime now);
+
+//    @Query("select b from Booking as b" +
+//            " where b.booker = ?1 and" +
+//            " b.start > ?1 and b.end > ?2" +
+//            " order by b.start DESC")
+//    List<Booking> findAllBookingsByBookerAndStatusFuture(User booker, LocalDateTime now, PageRequest pageRequest);
 
     @Query("select b from Booking as b" +
             " join b.item as i" +
@@ -98,4 +109,24 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             " order by b.start DESC")
     List<Booking> findBookingsByItemAndOwnerOrderByStartDesc(long itemId, User owner, LocalDateTime now);
 
+    //PAGINATION METHODS
+    //ITEM BOOKER
+    Page<Booking> findAllByBookerAndStatusOrderByStartDesc(User booker, BookingStatus status, Pageable pageable);
+
+    //b.start <= ?2 and b.end >= ?2
+    Page<Booking> findAllByBookerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(User booker, LocalDateTime now1, LocalDateTime now2, Pageable pageable);
+
+    //b.start < ?2 and b.end <= ?2
+    Page<Booking> findAllByBookerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(User booker, LocalDateTime now1, LocalDateTime now2, Pageable pageable);
+
+    Page<Booking> findAllByBookerOrderByStartDesc(User booker, PageRequest pageRequest);
+
+    //ITEM OWNER
+    Page<Booking> findAllByItemOwnerAndStatusOrderByStartDesc(User owner, BookingStatus status, Pageable pageable);
+
+    Page<Booking> findAllByItemOwnerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(User owner, LocalDateTime now1, LocalDateTime now2, Pageable pageable);
+
+    Page<Booking> findAllByItemOwnerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(User owner, LocalDateTime now1, LocalDateTime now2, Pageable pageable);
+
+    Page<Booking> findAllByItemOwnerOrderByStartDesc(User owner, Pageable pageable);
 }
