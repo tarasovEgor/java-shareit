@@ -71,7 +71,7 @@ public class BookingWithBookerIdDtoJsonTest {
         assertThat(result).extractingJsonPathNumberValue("$.id").isEqualTo(1);
         assertThat(result).extractingJsonPathValue("$.start").isEqualTo("2023-12-11T10:10:00");
         assertThat(result).extractingJsonPathValue("$.end").isEqualTo("2023-12-15T10:10:00");
-        
+
         assertThat(result).extractingJsonPathValue("$.item.id").isEqualTo(1);
         assertThat(result).extractingJsonPathValue("$.item.name").isEqualTo("item");
         assertThat(result).extractingJsonPathValue("$.item.description").isEqualTo("desc");
