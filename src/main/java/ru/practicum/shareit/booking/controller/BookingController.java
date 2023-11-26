@@ -1,7 +1,6 @@
 package ru.practicum.shareit.booking.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import ru.practicum.shareit.booking.dto.BookingDto;

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import ru.practicum.shareit.exception.ItemRequestDoesNotExistException;
 import ru.practicum.shareit.exception.UserDoesNotExistException;
-import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.mapper.ItemRequestMapper;

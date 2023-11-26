@@ -2,13 +2,10 @@ package ru.practicum.shareit.request.model;
 
 import lombok.Data;
 
-import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 

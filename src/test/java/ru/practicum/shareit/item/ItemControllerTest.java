@@ -118,7 +118,8 @@ public class ItemControllerTest {
 
         // When
         mockMvc.perform(
-                post("/users").contentType(MediaType.APPLICATION_JSON)
+                post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequestAttemptUser.write(user).getJson()))
                 .andReturn().getResponse();
 
@@ -162,7 +163,8 @@ public class ItemControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                 get("/items/1").accept(MediaType.APPLICATION_JSON)
                         .header("X-Sharer-User-Id", 1))
-                .andReturn().getResponse();
+                .andReturn()
+                .getResponse();
 
         // Then
         then(response.getStatus()).isEqualTo(HttpStatus.OK.value());
@@ -215,9 +217,11 @@ public class ItemControllerTest {
 
         // When
         mockMvc.perform(
-                post("/users").contentType(MediaType.APPLICATION_JSON)
+                post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequestAttemptUser.write(user).getJson()))
-                .andReturn().getResponse();
+                .andReturn()
+                .getResponse();
 
         mockMvc.perform(
                 get("/items")
