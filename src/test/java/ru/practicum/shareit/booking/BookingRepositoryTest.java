@@ -464,7 +464,7 @@ public class BookingRepositoryTest {
 
         Booking lastBooking = bookingRepository
                 .findFirstByItemOwnerAndStartIsBeforeOrderByStartDesc(owner, LocalDateTime.of(
-                        23, 11, 25, 23, 10 ,00)
+                        23, 11, 25, 23, 10,00)
                 );
 
         assertThat(lastBooking.getStart()).isEqualTo(bookingPast.getStart());
@@ -593,7 +593,7 @@ public class BookingRepositoryTest {
 
         Booking lastBooking = bookingRepository
                 .findFirstByItemOwnerAndStartIsBeforeAndStatusOrderByStartDesc(owner, LocalDateTime.of(
-                        23, 11, 25, 23, 10 ,00),
+                        23, 11, 25, 23, 10,00),
                         BookingStatus.WAITING
                 );
 
