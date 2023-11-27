@@ -5,8 +5,6 @@ import ru.practicum.shareit.exception.UserDoesNotExistException;
 //import ru.practicum.shareit.exception.UserDuplicateEmailException;
 import ru.practicum.shareit.user.model.User;
 
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 public class UserValidation {
