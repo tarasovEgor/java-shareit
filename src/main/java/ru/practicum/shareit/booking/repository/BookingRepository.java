@@ -109,6 +109,13 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             " order by b.start DESC")
     List<Booking> findBookingsByItemAndOwnerOrderByStartDesc(long itemId, User owner, LocalDateTime now);
 
+//    @Query("select b from Booking as b" +
+//            " join b.item as i" +
+//            " where i.id = ?1" +
+//            " and b.booker = ?2" +
+//            " order by b.start DESC")
+//    List<Booking> findBookingsByItemAndOwnerOrderByStartDesc(long itemId, User owner);
+
     //PAGINATION METHODS
     //ITEM BOOKER
     Page<Booking> findAllByBookerAndStatusOrderByStartDesc(User booker, BookingStatus status, Pageable pageable);

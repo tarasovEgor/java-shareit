@@ -11,13 +11,13 @@ import ru.practicum.shareit.exception.*;
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleUserDuplicateEmailException(final UserDuplicateEmailException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.CONFLICT)
+//    public ErrorResponse handleUserDuplicateEmailException(final UserDuplicateEmailException e) {
+//        return new ErrorResponse(
+//                e.getMessage()
+//        );
+//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -67,21 +67,21 @@ public class ErrorHandler {
         );
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleInvalidItemPropertiesException(final InvalidItemPropertiesException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ErrorResponse handleInvalidItemPropertiesException(final InvalidItemPropertiesException e) {
+//        return new ErrorResponse(
+//                e.getMessage()
+//        );
+//    }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleOwnerDoesNotExistException(final OwnerDoesNotExistException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ErrorResponse handleOwnerDoesNotExistException(final OwnerDoesNotExistException e) {
+//        return new ErrorResponse(
+//                e.getMessage()
+//        );
+//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)

@@ -117,7 +117,7 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
-    @Override
+/*    @Override
     public List<BookingDto> getAllBookingsByBooker(String state, long bookerId) {
         BookingValidation.isBookingStateValid(state);
         Optional<User> booker = Optional.of(userRepository.findById(bookerId))
@@ -138,7 +138,7 @@ public class BookingServiceImpl implements BookingService {
             }
         }
         return BookingMapper.toBookingDto(bookingRepository.findAllBookingsByBooker(booker.get()));
-    }
+    }*/
 
     @Override
     public List<BookingDto> getAllBookingsByBooker(String status, long bookerId, Integer from, Integer size) {
@@ -180,7 +180,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
 
-    @Override
+/*    @Override
     public List<BookingDto> getAllBookingsByItemOwner(String state, long ownerId) {
         BookingValidation.isBookingStateValid(state);
         Optional<User> owner = Optional.of(userRepository.findById(ownerId))
@@ -201,7 +201,7 @@ public class BookingServiceImpl implements BookingService {
             }
         }
         return BookingMapper.toBookingDto(bookingRepository.findAllBookingsByItemOwner(owner.get()));
-    }
+    }*/
 
     @Override
     public List<BookingDto> getAllBookingsByItemOwner(String status, long ownerId, Integer from, Integer size) {

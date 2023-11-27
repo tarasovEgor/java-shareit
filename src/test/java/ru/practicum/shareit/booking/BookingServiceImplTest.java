@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +18,7 @@ import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.booking.service.impl.BookingServiceImpl;
+import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.item.repository.ItemRepository;
@@ -111,6 +113,158 @@ public class BookingServiceImplTest {
     }
 
     @Test
+    void shouldNotSaveBookingWhenItemDoesNotExist() {
+        // Given
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        // Then
+        assertThrows(ItemDoesNotExistException.class,
+                () -> bookingService.saveBooking(bookingDto, 112L));
+    }
+
+    @Test
+    void shouldNotSaveBookingWhenItemOwnerIdEqualsToItemBookerId() {
+        // Given
+        Booking booking = new Booking(
+                LocalDateTime.of(2023, 11, 12, 12, 0),
+                LocalDateTime.of(2023, 11, 15, 12, 0),
+                item,
+                owner
+        );
+
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(itemRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(item));
+
+        // Then
+        assertThrows(InvalidItemOwnerException.class,
+                () -> bookingService.saveBooking(bookingDto, 1));
+    }
+
+    @Test
+    void shouldNotSaveBookingWhenItemIsUnavailable() {
+        // Given
+        item.setAvailable(false);
+
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(itemRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(item));
+
+        // Then
+        assertThrows(ItemIsUnavailableException.class,
+                () -> bookingService.saveBooking(bookingDto, 2L));
+    }
+
+    @Test
+    void shouldNotSaveBookingWhenBookingStartIsNull() {
+        // Given
+        Booking booking = new Booking(
+                null,
+                LocalDateTime.of(2023, 11, 23, 12, 12),
+                item,
+                booker
+        );
+
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(itemRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(item));
+
+        // Then
+        assertThrows(InvalidBookingDateException.class,
+                () -> bookingService.saveBooking(bookingDto, 2L));
+    }
+
+    @Test
+    void shouldNotSaveBookingWhenBookingEndIsNull() {
+        // Given
+        Booking booking = new Booking(
+                LocalDateTime.of(2023, 11, 12, 12, 00),
+                null,
+                item,
+                booker
+        );
+
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(itemRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(item));
+
+        // Then
+        assertThrows(InvalidBookingDateException.class,
+                () -> bookingService.saveBooking(bookingDto, 2));
+    }
+
+    @Test
+    void shouldNotSaveBookingWhenEndIsBeforeStart() {
+        // Given
+        Booking booking = new Booking(
+                LocalDateTime.of(2023, 11, 12, 12, 10),
+                LocalDateTime.of(2023, 10, 12, 12, 10),
+                item,
+                booker
+        );
+
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(itemRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(item));
+
+        // Then
+        assertThrows(InvalidBookingDateException.class,
+                () -> bookingService.saveBooking(bookingDto, 2L));
+    }
+
+    @Test
+    void shouldNotSaveBookingWhenStartEqualsEnd() {
+        // Given
+        Booking booking = new Booking(
+                LocalDateTime.of(2023, 10, 12, 12, 10),
+                LocalDateTime.of(2023, 10, 12, 12, 10),
+                item,
+                booker
+        );
+
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(itemRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(item));
+
+        // Then
+        assertThrows(InvalidBookingDateException.class,
+                () -> bookingService.saveBooking(bookingDto, 2L));
+    }
+
+    @Test
+    void shouldNotSaveBookingWhenStartIsBeforeNow() {
+        // Given
+        Booking booking = new Booking(
+                LocalDateTime.of(2023, 10, 12, 12, 10),
+                LocalDateTime.of(2023, 11, 12, 12, 10),
+                item,
+                booker
+        );
+
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(itemRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(item));
+
+        // Then
+        assertThrows(InvalidBookingDateException.class,
+                () -> bookingService.saveBooking(bookingDto, 2L));
+    }
+
+    @Test
     void shouldGetBookingByIdAndBooker() {
         // Given
         given(userRepository.findById(anyLong())).willReturn(Optional.of(booker));
@@ -189,6 +343,37 @@ public class BookingServiceImplTest {
         assertThat(bookingDto.getStatus()).isEqualTo(BookingStatus.REJECTED);
         assertThat(bookingDto.getBooker()).isEqualTo(booker);
 
+    }
+
+    @Test
+    void shouldNotUpdateBookingStatusWhenStatusIsAlreadyApproved() {
+        // Given
+        booking.setId(1L);
+        booking.setStatus(BookingStatus.APPROVED);
+
+        given(userRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(owner));
+
+        given(bookingRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(booking));
+
+        // Then
+        assertThrows(BookingStatusIsAlreadyApprovedException.class,
+                () -> bookingService.updateBookingStatus(1L, true, 1L));
+    }
+
+    @Test
+    void shouldNotReturnBookingByNonExistentId() {
+        // Given
+        given(userRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(booker));
+
+        // Then
+        assertThrows(BookingNotFoundException.class,
+                () -> bookingService.getBookingById(999L, 2L));
     }
 
     @Test
@@ -272,6 +457,14 @@ public class BookingServiceImplTest {
         assertThat(bookingDtoList.size()).isEqualTo(1);
         assertThat(bookingDtoList.contains(bookingDto)).isTrue();
         assertThat(bookingDtoList.get(0).getStatus()).isEqualTo(BookingStatus.WAITING);
+
+    }
+
+    @Test
+    void shouldNotGetAllBookingsByUnsupportedBookingStatus() {
+        // Then
+        assertThrows(UnsupportedBookingStatusException.class,
+                () -> bookingService.getAllBookingsByBooker("UNSUPPORTED", 2L, 0, 5));
 
     }
 

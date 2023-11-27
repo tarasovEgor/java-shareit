@@ -1,19 +1,24 @@
 package ru.practicum.shareit.item;
 
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
-import ru.practicum.shareit.exception.ItemDoesNotExistException;
-import ru.practicum.shareit.exception.UserDoesNotExistException;
+import ru.practicum.shareit.exception.*;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemWithBookingDto;
 import ru.practicum.shareit.item.mapper.ItemMapper;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.CommentRepository;
 import ru.practicum.shareit.item.repository.ItemRepository;
@@ -21,15 +26,16 @@ import ru.practicum.shareit.item.service.impl.ItemServiceImpl;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
+import java.time.*;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.BDDMockito.given;
-
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class ItemServiceImplTest {
@@ -64,6 +70,7 @@ public class ItemServiceImplTest {
     private Item item;
 //    private ItemDto itemDto;
     private User user;
+
 
     @BeforeEach
     public void setup() {
@@ -118,7 +125,59 @@ public class ItemServiceImplTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(UserDoesNotExistException.class, () -> itemService.saveItem(item, 1));
+
     }
+
+    @Test
+    void shouldNotSaveItemWhenItemNameIsEmpty() {
+        // Given
+        Item invalidItem = new Item(
+                "",
+                "desc",
+                false,
+                user,
+                2L
+        );
+
+        // Then
+        assertThrows(InvalidItemNameException.class,
+                () -> itemService.saveItem(invalidItem, 1));
+
+    }
+
+    @Test
+    void shouldNotSaveItemWhenItemDescriptionIsNull() {
+        // Given
+        Item invalidItem = new Item(
+                "item",
+                null,
+                false,
+                user,
+                2L
+        );
+
+        // Then
+        assertThrows(InvalidItemDescriptionException.class,
+                () -> itemService.saveItem(invalidItem, 1));
+
+    }
+
+    @Test
+    void shouldNotSaveItemWhenItemAvailableFieldIsNull() {
+        // Given
+        Item invalidItem = new Item(
+                "item",
+                "desc",
+                null,
+                user,
+                2L
+        );
+
+        // Then
+        assertThrows(InvalidAvailableFieldException.class,
+                () -> itemService.saveItem(invalidItem, 1));
+    }
+
 
     @Test
     void shouldGetItemById() {
@@ -251,35 +310,117 @@ public class ItemServiceImplTest {
         assertThat(foundItems.contains(searchedItem1));
         assertThat(foundItems.contains(searchedItem2));
         assertThat(!foundItems.contains(searchedItem3));
+
     }
 
+    @Test
+    void shouldNotSaveCommentWithNoText() {
+        // Given
+        Comment comment = new Comment(
+                1L,
+                "",
+                item,
+                user,
+                LocalDateTime.of(23, 11, 30, 12, 12)
+        );
+
+        // Then
+        assertThrows(InvalidCommentException.class, () -> itemService.saveComment(comment, 1L, 1L));
+
+    }
+
+    @Test
+    void shouldNotSaveCommentWithNoBookingByAuthor() {
+        // Given
+        User author = new User(
+                "author",
+                "author@mail.com"
+        );
+
+        Comment comment = new Comment(
+                1L,
+                "text",
+                item,
+                author,
+                LocalDateTime.of(2023, 11, 30, 11, 30)
+        );
+
+        Booking booking = new Booking(
+                LocalDateTime.of(2023, 10, 24, 12, 20),
+                LocalDateTime.of(LocalDate.of(2023, 11, 20), LocalTime.of(10, 23)),
+                item,
+                author
+        );
+
+        author.setId(1L);
+
+        given(itemRepository.findById(anyLong())).willReturn(Optional.of(item));
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(author));
+
+        // When
+        when(bookingRepository
+                .findBookingsByItemAndOwnerOrderByStartDesc(
+                        1L, author, LocalDateTime.of(
+                                2023, 11, 30, 12, 12)
+                )).thenReturn(List.of());
+
+        // Then
+        assertThrows(NoBookingForCommentException.class, () -> itemService.saveComment(comment, 1, 1));
+
+    }
 //    @Test
 //    void shouldSaveComment() {
 //        // Given
-//        Item newItem = new Item("item", "desc", false, user, null);
-//        newItem.setId(1L);
-//
-//        Comment comment = new Comment(1L, "text", newItem, user, LocalDateTime.now());
-//
-//        CommentDto commentDto = new CommentDto(1L, "text", newItem, user.getName());
-//
-//        Booking booking = new Booking(
-//                LocalDateTime.of(2023, 3, 20, 23, 30, 23),
-//                LocalDateTime.of(2023, 4, 20, 23, 30, 23),
-//                newItem,
-//                user
+//        Item newItem = new Item(
+//                "item",
+//                "desc",
+//                true,
+//                user,
+//                1L
 //        );
 //
-//        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
-//        when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
-//        when(bookingRepository.findBookingsByItemAndOwnerOrderByStartDesc(
-//                1L, user, LocalDateTime.now())).thenReturn(List.of(booking));
+//        newItem.setId(1L);
 //
-////        when(itemService.saveComment(comment, any(), user.getId())).thenReturn(commentDto);
-////
-//        CommentDto savedComment = itemService.saveComment(comment, 1L, anyLong());
+//        User author = new User(
+//                "author",
+//                "author@mail.com"
+//        );
 //
-//        System.out.println(savedComment);
+//        Comment comment = new Comment(
+//                1L,
+//                "text",
+//                newItem,
+//                author,
+//                LocalDateTime.of(2023, 11, 30, 11, 30)
+//        );
+//
+//
+//
+//        Booking booking = new Booking(
+//                LocalDateTime.of(2023, 10, 24, 12, 20),
+//                LocalDateTime.of(LocalDate.of(2023, 11, 20), LocalTime.of(10, 23)),
+//                newItem,
+//                author
+//        );
+//
+//        author.setId(1L);
+//
+//        given(itemRepository.findById(anyLong())).willReturn(Optional.of(newItem));
+//        given(userRepository.findById(anyLong())).willReturn(Optional.of(author));
+//
+//        given(bookingRepository.findById(anyLong())).willReturn(Optional.of(booking));
+//
+//        when(bookingRepository
+//                .findBookingsByItemAndOwnerOrderByStartDesc(
+//                        1L, author, LocalDateTime.of(
+//                                anyInt(), anyInt(), 30, anyInt(), anyInt(), anyInt(), anyInt())
+//                )).thenReturn(List.of(booking));
+//
+//        // When
+//        when(commentRepository.save(comment)).thenReturn(comment);
+//
+//        CommentDto commentDto = itemService.saveComment(comment, 1L, 1L);
+//
 //
 //    }
 }
