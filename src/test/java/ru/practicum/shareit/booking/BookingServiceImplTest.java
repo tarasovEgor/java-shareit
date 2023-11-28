@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.dto.BookingWithBookerIdDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
@@ -550,6 +551,39 @@ public class BookingServiceImplTest {
         assertThat(bookingDtoList.contains(bookingDto)).isTrue();
         assertThat(bookingDtoList.get(0).getStatus()).isEqualTo(BookingStatus.WAITING);
         assertThat(bookingDtoList.get(0).getItem().getOwner()).isEqualTo(owner);
+
+    }
+
+    @Test
+    void shouldMapBookingToBookingWithBookerIdDto() {
+        // Given
+        User booker = new User(
+                "booker",
+                "booker@mail.com"
+        );
+
+        booker.setId(2L);
+
+        Booking booking = new Booking(
+                LocalDateTime.of(2023, 11, 12, 23, 12),
+                LocalDateTime.of(2023, 11, 16, 23, 12),
+                item,
+                booker
+        );
+
+        booking.setStatus(BookingStatus.APPROVED);
+
+        // When
+        BookingWithBookerIdDto bookingWithBookerIdDto =
+                BookingMapper.toBookingWithBookerIdDto(booking);
+
+        // Then
+        assertNotNull(bookingWithBookerIdDto);
+        assertThat(bookingWithBookerIdDto.getBookerId()).isEqualTo(2L);
+        assertThat(bookingWithBookerIdDto.getItem()).isEqualTo(item);
+        assertThat(bookingWithBookerIdDto.getStart()).isEqualTo(booking.getStart());
+        assertThat(bookingWithBookerIdDto.getEnd()).isEqualTo(booking.getEnd());
+        assertThat(bookingWithBookerIdDto.getStatus()).isEqualTo(booking.getStatus());
 
     }
 }

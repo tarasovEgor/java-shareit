@@ -35,13 +35,13 @@ public class ErrorHandler {
         );
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleOwnerNotFoundException(final OwnerNotFoundException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    public ErrorResponse handleOwnerNotFoundException(final OwnerNotFoundException e) {
+//        return new ErrorResponse(
+//                e.getMessage()
+//        );
+//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -165,7 +165,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleItemRequestDoesNotExistEsception(final ItemRequestDoesNotExistException e) {
+    public ErrorResponse handleItemRequestDoesNotExistException(final ItemRequestDoesNotExistException e) {
         return new ErrorResponse(
                 e.getMessage()
         );

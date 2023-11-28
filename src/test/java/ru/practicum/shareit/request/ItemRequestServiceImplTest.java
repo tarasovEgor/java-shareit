@@ -11,6 +11,8 @@ import org.mockito.quality.Strictness;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import ru.practicum.shareit.exception.InvalidItemRequestDescriptionException;
+import ru.practicum.shareit.exception.ItemRequestDoesNotExistException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
@@ -117,6 +119,19 @@ public class ItemRequestServiceImplTest {
     }
 
     @Test
+    void shouldNotSaveItemRequestWhenDescriptionIsNull() {
+        // Given
+        ItemRequest itemRequest = new ItemRequest(
+                null,
+                requestor
+        );
+
+        // Then
+        assertThrows(InvalidItemRequestDescriptionException.class,
+                () -> itemRequestService.saveItemRequest(itemRequest, 1L));
+    }
+
+    @Test
     void shouldGetAllItemRequests() {
         // Given
         Page<ItemRequest> page = new PageImpl<>(List.of(itemRequest));
@@ -166,6 +181,18 @@ public class ItemRequestServiceImplTest {
         assertThat(returnedItemRequest.getDescription()).isEqualTo(itemRequestDto.getDescription());
         assertThat(returnedItemRequest.getRequestor()).isEqualTo(itemRequestDto.getRequestor());
 
+    }
+
+    @Test
+    void shouldNotReturnItemRequestByNonExistentId() {
+        // Given
+        given(userRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(requestor));
+
+        // Then
+        assertThrows(ItemRequestDoesNotExistException.class,
+                () -> itemRequestService.getItemRequestById(999, 1));
     }
 
     @Test

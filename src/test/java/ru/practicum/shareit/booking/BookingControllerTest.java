@@ -224,7 +224,9 @@ public class BookingControllerTest {
                 BookingStatus.REJECTED
         );
 
-        given(bookingService.updateBookingStatus(1, false, 2)).willReturn(bookingDto);
+        given(bookingService
+                .updateBookingStatus(1, false, 2))
+                .willReturn(bookingDto);
 
         // When
         MockHttpServletResponse response = mockMvc.perform(

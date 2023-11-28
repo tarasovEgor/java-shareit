@@ -42,6 +42,7 @@ public class ErrorHandlerUserControllerTest {
 
     @BeforeEach
     void setUp() {
+
         this.mockMvc = MockMvcBuilders
                 .standaloneSetup(new ErrorHandler(), userController)
                 .build();
@@ -50,6 +51,7 @@ public class ErrorHandlerUserControllerTest {
                 "user",
                 "user@mail.com"
         );
+
     }
 
     @Test
@@ -77,12 +79,12 @@ public class ErrorHandlerUserControllerTest {
                 .thenThrow(new UserDoesNotExistException("User doesn't exist exception"));
 
         mockMvc.perform(
-                get("/users/999").accept(MediaType.APPLICATION_JSON))
+                get("/users/999")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error").value("User doesn't exist exception"));
 
     }
-
 
 }

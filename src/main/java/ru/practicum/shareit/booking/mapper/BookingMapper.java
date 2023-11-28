@@ -51,12 +51,12 @@ public class BookingMapper {
         );
     }
 
-    public static List<BookingWithBookerIdDto> toBookingWithBookerIdDto(List<Booking> bookings) {
-        List<BookingWithBookerIdDto> dtos = new ArrayList<>();
-        for (Booking b : bookings) {
-            dtos.add(toBookingWithBookerIdDto(b));
-        }
-        return dtos;
-    }
+//    public static List<BookingWithBookerIdDto> toBookingWithBookerIdDto(List<Booking> bookings) {
+//        List<BookingWithBookerIdDto> dtos = new ArrayList<>();
+//        for (Booking b : bookings) {
+//            dtos.add(toBookingWithBookerIdDto(b));
+//        }
+//        return dtos;
+//    }
 
 }
