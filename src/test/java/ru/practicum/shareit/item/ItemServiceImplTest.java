@@ -23,6 +23,7 @@ import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.service.impl.ItemServiceImpl;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
+import ru.practicum.shareit.validation.ItemValidation;
 
 import java.time.*;
 import java.util.List;
@@ -260,48 +261,11 @@ public class ItemServiceImplTest {
         assertThat(updatedItem.getName()).isEqualTo(item.getName());
         assertThat(updatedItem.getDescription()).isEqualTo(item.getDescription());
         assertThat(updatedItem.getAvailable()).isEqualTo(item.getAvailable());
+
     }
 
     @Test
     void shouldUpdateItemName() {
-        // Given
-
-//        Item itemWithJustAName = new Item(
-//                "updated",
-//                null,
-//                null,
-//                null,
-//                null
-//        );
-//
-////        Item updatedItem = new Item(
-////                "updated",
-////                "description",
-////                true,
-////                null,
-////                null
-////        );
-//
-//        ItemDto updatedItem = new ItemDto(
-//                1L,
-//                "updated",
-//                "description",
-//                true,
-//                null
-//        );
-//
-//        given(userRepository.findById(1L)).willReturn(Optional.of(user));
-//        given(itemRepository.findById(1L)).willReturn(Optional.of(item));
-//
-//        when(itemService.updateItem(itemWithJustAName, 1L, 1L)).thenReturn(updatedItem);
-//        // When
-//        ItemDto itemWithUpdatedName = itemService.updateItem(itemWithJustAName, 1L, 1L);
-//
-//        System.out.println(itemWithUpdatedName);
-
-
-
-
         // Given
         given(itemRepository.save(item)).willReturn(item);
 
@@ -312,20 +276,18 @@ public class ItemServiceImplTest {
         ItemDto savedItem = itemService.saveItem(item, 1L);
 
         item.setName("updated");
-//        item.setDescription("updated");
- //       item.setAvailable(null);
 
         when(itemRepository.findById(anyLong())).thenReturn(Optional.of(ItemMapper.toItem(savedItem, user)));
 
         ItemDto updatedItem = itemService.updateItem(item, 1L, 1L);
 
         // Then
-       // System.out.println(updatedItem);
         assertThat(updatedItem).isNotNull();
         assertThat(updatedItem.getId()).isEqualTo(item.getId());
         assertThat(updatedItem.getName()).isEqualTo(item.getName());
         assertThat(updatedItem.getDescription()).isEqualTo(item.getDescription());
         assertThat(updatedItem.getAvailable()).isEqualTo(item.getAvailable());
+
     }
 
     @Test
@@ -522,104 +484,165 @@ public class ItemServiceImplTest {
 
     }
 
-//    @Test
-//    void shouldMapItemsToItemWithBookingDtoBookingsAreNotNull() {
-//        // Given
-//        User itemOwner1 = new User("user1", "user1@mail.com");
-//        // User itemOwner2 = new User("user2", "user2@mail.com");
-//        User author = new User("author", "author@mail.com");
-//
-//        itemOwner1.setId(1L);
-//        // itemOwner2.setId(2L);
-//        author.setId(3L);
-//
-//        Item item1 = new Item(
-//                "item1",
-//                "desc",
-//                true,
-//                itemOwner1,
-//                1L
-//        );
-//
-//        item1.setId(1L);
-//
-////        Item item2 = new Item(
-////                "item2",
-////                "desc",
-////                true,
-////                itemOwner2,
-////                2L
-////        );
-//
-//        Booking nextBooking = new Booking(
-//                LocalDateTime.of(2023, 12, 25, 12, 12),
-//                LocalDateTime.of(2023, 12, 7, 12, 12),
-//                item1,
-//                itemOwner1
-//        );
-//
-//        Booking lastBooking = new Booking(
-//                LocalDateTime.of(2023, 11, 5, 12, 12),
-//                LocalDateTime.of(2023, 11, 7, 12, 12),
-//                item1,
-//                itemOwner1
-//        );
-//
-//        Comment comment = new Comment(
-//                1L,
-//                "text",
-//                item1,
-//                author,
-//                LocalDateTime.of(2023, 11, 12, 12, 12)
-//        );
-//
-//        CommentDto commentDto = CommentMapper.toCommentDto(comment, item1, "author");
-////
-////        userRepository.save(itemOwner1);
-////        userRepository.save(author);
-////
-////        itemRepository.save(item1);
-////
-////        bookingRepository.save(nextBooking);
-////        bookingRepository.save(lastBooking);
-//
-//        List<Item> items = List.of(item1);
-//        List<Booking> bookings = List.of(nextBooking, lastBooking);
-//        List<CommentDto> comments = List.of(commentDto);
-//
-////        when(userRepository.findAll()).thenReturn(List.of(itemOwner1, author));
-////        when(itemRepository.findAll()).thenReturn(List.of(item1));
-////        when(bookingRepository.findAll()).thenReturn(List.of(nextBooking, lastBooking));
-//
-//        given(itemRepository.findById(item1.getId())).willReturn(Optional.of(item1));
-//        given(bookingRepository
-//                .findFirstByItemOwnerAndStartIsAfterOrderByStartAsc(
-//                        itemOwner1, LocalDateTime.now()))
-//                .willReturn(nextBooking);
-//        given(bookingRepository
-//                .findFirstByItemOwnerAndStartIsBeforeOrderByStartDesc(
-//                        itemOwner1, LocalDateTime.now()))
-//                .willReturn(lastBooking);
-//
-//        List<ItemWithBookingDto> itemWithBookingDtos = ItemMapper.toItemDtoWithBookings(
-//                items,
-//                bookings,
-//                itemOwner1,
-//                itemRepository,
-//                bookingRepository,
-//                comments
-//        );
-//
-//        System.out.println(itemWithBookingDtos);
-////        assertNotNull(itemWithBookingDtos);
-////        assertThat(itemWithBookingDtos.get(0).getName()).isEqualTo(item1.getName());
-////        assertThat(itemWithBookingDtos.get(0).getDescription()).isEqualTo(item1.getDescription());
-////        assertThat(itemWithBookingDtos.get(0).getRequest()).isEqualTo(item1.getRequestId());
-////        assertThat(itemWithBookingDtos.get(0).getNextBooking()).isNull();
-////        assertThat(itemWithBookingDtos.get(0).getLastBooking()).isNull();
-////        assertThat(itemWithBookingDtos.get(0).getComments().get(0)).isEqualTo(commentDto);
-//
-//    }
+    @Test
+    void shouldMapItemsToItemWithBookingDtoBookingsAreNullDifferentItemId() {
+        // Given
+        User itemOwner1 = new User("user1", "user1@mail.com");
+        User itemOwner2 = new User("user2", "user2@mail.com");
+        User author = new User("author", "author@mail.com");
+
+        itemOwner1.setId(1L);
+        itemOwner2.setId(2L);
+        author.setId(3L);
+
+        Item item1 = new Item(
+                "item1",
+                "desc",
+                true,
+                itemOwner1,
+                1L
+        );
+
+        item1.setId(1L);
+
+        Item item2 = new Item(
+                "item2",
+                "desc",
+                true,
+                itemOwner2,
+                2L
+        );
+
+        item2.setId(2L);
+
+        Booking nextBooking = new Booking(
+                LocalDateTime.of(2023, 12, 9, 12, 12),
+                LocalDateTime.of(2023, 12, 17, 12, 12),
+                item1,
+                itemOwner1
+        );
+
+        Booking lastBooking = new Booking(
+                LocalDateTime.of(2023, 11, 5, 12, 12),
+                LocalDateTime.of(2023, 11, 7, 12, 12),
+                item1,
+                itemOwner1
+        );
+
+        Comment comment = new Comment(
+                1L,
+                "text",
+                item1,
+                author,
+                LocalDateTime.of(2023, 11, 12, 12, 12)
+        );
+
+        CommentDto commentDto = CommentMapper.toCommentDto(comment, item1, "author");
+
+        List<Item> items = List.of(item2);
+        List<Booking> bookings = List.of(nextBooking, lastBooking);
+        List<CommentDto> comments = List.of(commentDto);
+
+        given(itemRepository.findById(item2.getId())).willReturn(Optional.of(item2));
+
+        List<ItemWithBookingDto> itemWithBookingDtos = ItemMapper.toItemDtoWithBookings(
+                items,
+                bookings,
+                itemOwner1,
+                itemRepository,
+                bookingRepository,
+                comments
+        );
+
+        assertNotNull(itemWithBookingDtos);
+        assertThat(itemWithBookingDtos.get(0).getId()).isEqualTo(2L);
+        assertThat(itemWithBookingDtos.get(0).getName()).isEqualTo(item2.getName());
+        assertThat(itemWithBookingDtos.get(0).getDescription()).isEqualTo(item2.getDescription());
+        assertThat(itemWithBookingDtos.get(0).getRequest()).isEqualTo(item2.getRequestId());
+        assertThat(itemWithBookingDtos.get(0).getNextBooking()).isNull();
+        assertThat(itemWithBookingDtos.get(0).getLastBooking()).isNull();
+        assertThat(itemWithBookingDtos.get(0).getComments().get(0)).isEqualTo(commentDto);
+
+    }
+
+    @Test
+    void shouldUpdateItemNameItemValidation() {
+        // Given
+        Item itemWithNewName = new Item(
+                "updated",
+                null,
+                null,
+                user,
+                1L
+        );
+
+        item.setId(1L);
+        itemWithNewName.setId(1L);
+
+        given(itemRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(item));
+
+        // When
+        ItemDto itemDto = ItemValidation
+                .isItemValidForUpdate(itemWithNewName, 1L, user, itemRepository);
+
+        // Then
+        assertNotNull(itemDto);
+
+    }
+
+    @Test
+    void shouldUpdateItemDescriptionItemValidation() {
+        // Given
+        Item itemWithDescription = new Item(
+                null,
+                "desc",
+                null,
+                user,
+                1L
+        );
+
+        item.setId(1L);
+        itemWithDescription.setId(1L);
+
+        given(itemRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(item));
+
+        // When
+        ItemDto itemDto = ItemValidation
+                .isItemValidForUpdate(itemWithDescription, 1L, user, itemRepository);
+
+        assertNotNull(itemDto);
+
+    }
+
+    @Test
+    void shouldUpdateItemAvailableItemValidation() {
+        // Given
+        Item itemWithAvailable = new Item(
+                null,
+                null,
+                false,
+                user,
+                1L
+        );
+
+        item.setId(1L);
+        itemWithAvailable.setId(1L);
+
+        given(itemRepository
+                .findById(anyLong()))
+                .willReturn(Optional.of(item));
+
+        // When
+        ItemDto itemDto = ItemValidation
+                .isItemValidForUpdate(itemWithAvailable, 1L, user, itemRepository);
+
+        assertNotNull(itemDto);
+
+    }
 //    @Test
 //    void shouldSaveComment() {
 //        // Given
@@ -675,4 +698,63 @@ public class ItemServiceImplTest {
 //
 //
 //    }
+
+    @Test
+    void shouldMapItemWithRequestIdToItemDto() {
+        // Given
+        Item itemWithRequestId = new Item(
+                "item",
+                "desc",
+                true,
+                user,
+                2L
+        );
+
+        // When
+        ItemDto itemDto = ItemMapper.toItemDto(itemWithRequestId);
+
+        // Then
+        assertNotNull(itemDto);
+        assertThat(itemDto.getName()).isEqualTo(itemWithRequestId.getName());
+        assertThat(itemDto.getDescription()).isEqualTo(itemWithRequestId.getDescription());
+        assertThat(itemDto.getAvailable()).isTrue();
+        assertThat(itemDto.getRequestId()).isEqualTo(2L);
+    }
+
+
+    @Test
+    void shouldMapListOfCommentsToAListOfCommentDtos() {
+        User user1 = new User("user1", "user1@mail.com");
+        User user2 = new User("user2", "user2@mail.com");
+
+
+        Comment comment1 = new Comment(
+                1L,
+                "text",
+                item,
+                user1,
+                LocalDateTime.of(2023, 12, 12, 12, 12)
+        );
+
+        Comment comment2 = new Comment(
+                2L,
+                "text",
+                item,
+                user2,
+                LocalDateTime.of(2023, 11, 12, 12, 12)
+        );
+
+        List<Comment> comments = List.of(comment1, comment2);
+
+        CommentDto commentDto1 = CommentMapper.toCommentDto(comment1, item, "user1");
+        CommentDto commentDto2 = CommentMapper.toCommentDto(comment2, item, "user2");
+
+
+        List<CommentDto> commentDtos = CommentMapper.toCommentDto(comments);
+
+        assertNotNull(commentDtos);
+        assertThat(commentDtos.contains(commentDto1));
+        assertThat(commentDtos.contains(commentDto2));
+
+    }
 }

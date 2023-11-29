@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import ru.practicum.shareit.exception.InvalidEmailException;
 import ru.practicum.shareit.exception.UserDoesNotExistException;
+import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -19,10 +20,9 @@ import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -169,7 +169,21 @@ public class UserServiceImplTest {
         assertAll(() -> userService.deleteUser(1L));
     }
 
+    @Test
+    void shouldMapUserDtoToUser() {
 
+        UserDto userDto = new UserDto(
+                1L,
+                "user",
+                "user@mail.com"
+        );
+
+        User user = UserMapper.toUser(userDto);
+
+        assertNotNull(user);
+        assertThat(user.getName()).isEqualTo(userDto.getName());
+        assertThat(user.getEmail()).isEqualTo(userDto.getEmail());
+    }
 
 
 

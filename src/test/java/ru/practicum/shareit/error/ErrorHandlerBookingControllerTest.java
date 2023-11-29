@@ -303,6 +303,37 @@ public class ErrorHandlerBookingControllerTest {
                         .value("Booking status is already approved exception"));
     }
 
+    @Test
+    void checkItemIsUnavailableExceptionsAreCaughtAndStatus400() throws Exception {
+        // Given
+        item.setAvailable(false);
+
+        Booking booking = new Booking(
+                LocalDateTime.of(2023, 11, 25, 12, 10, 00),
+                LocalDateTime.of(2023, 12, 26, 12, 10, 00),
+                item,
+                booker
+        );
+
+        booking.setId(1L);
+
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        // When
+        when(bookingController
+                .saveBooking(bookingDto, 2))
+                .thenThrow(new ItemIsUnavailableException("Item is unavailable"));
+
+        mockMvc.perform(
+                post("/bookings")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequestAttemptBookingDto.write(bookingDto).getJson())
+                        .header("X-Sharer-User-Id", 2))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Item is unavailable"));
+
+    }
 
 
     /*@Test

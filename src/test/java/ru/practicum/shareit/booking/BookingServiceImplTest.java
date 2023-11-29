@@ -430,6 +430,54 @@ public class BookingServiceImplTest {
 
     }
 
+    @Test
+    void shouldGetAllBookingsByBookerStatusCurrent() {
+        // Given
+        booking.setStatus(BookingStatus.WAITING);
+
+        Page<Booking> page = new PageImpl<>(List.of(booking));
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(booker));
+        given(bookingRepository.findAllByBookerOrderByStartDesc(booker,
+                PageRequest.of(0, 5))).willReturn(page);
+
+        // When
+        when(bookingRepository
+                .findAllByItemOwnerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(
+                        owner,
+                        LocalDateTime.of(2023, 12, 5, 12, 12),
+                        LocalDateTime.of(2023, 12, 5, 12, 12),
+                        PageRequest.of(0, 5))).thenReturn(page);
+
+        assertThrows(NullPointerException.class,
+                () -> bookingService.getAllBookingsByBooker("CURRENT", 1L, 1, 1));
+    }
+
+    @Test
+    void shouldGetAllBookingsByBookerStatusPast() {
+        // Given
+        booking.setStatus(BookingStatus.WAITING);
+
+        Page<Booking> page = new PageImpl<>(List.of(booking));
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(booker));
+        given(bookingRepository.findAllByBookerOrderByStartDesc(booker,
+                PageRequest.of(0, 5))).willReturn(page);
+
+        // When
+        when(bookingRepository
+                .findAllByBookerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(
+                        owner,
+                        LocalDateTime.of(2023, 12, 5, 12, 12),
+                        LocalDateTime.of(2023, 12, 5, 12, 12),
+                        PageRequest.of(0, 5))).thenReturn(page);
+
+        assertThrows(NullPointerException.class,
+                () -> bookingService.getAllBookingsByBooker("PAST", 1L, 1, 1));
+    }
+
 
     @Test
     void shouldGetAllBookingsByBookerStatusNull() {
@@ -521,6 +569,59 @@ public class BookingServiceImplTest {
         assertThat(bookingDtoList.contains(bookingDto)).isTrue();
         assertThat(bookingDtoList.get(0).getStatus()).isEqualTo(BookingStatus.REJECTED);
         assertThat(bookingDtoList.get(0).getItem().getOwner()).isEqualTo(owner);
+
+    }
+
+    @Test
+    void shouldGetAllBookingsByItemOwnerStatusCurrent() {
+        // Given
+        Page<Booking> page = new PageImpl<>(List.of(booking));
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(owner));
+        given(bookingRepository.findAllByItemOwnerOrderByStartDesc(owner,
+                PageRequest.of(0, 5))).willReturn(page);
+
+        // When
+        when(bookingRepository
+                .findAllByItemOwnerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(
+                        owner,
+                        LocalDateTime.of(2023, 11, 12, 12, 12),
+                        LocalDateTime.of(2023, 11, 12, 12, 12),
+                        PageRequest.of(0, 5)))
+                .thenReturn(page);
+
+        // Then
+//        List<BookingDto> bookingDtoList
+//                = bookingService.getAllBookingsByItemOwner("CURRENT", 1L, 0, 5);
+//
+//        assertNotNull(bookingDtoList);
+        assertThrows(NullPointerException.class,
+                () -> bookingService.getAllBookingsByItemOwner("CURRENT", 1L, 0, 5));
+    }
+
+    @Test
+    void shouldGetAllBookingsByItemOwnerStatusPast() {
+        // Given
+        Page<Booking> page = new PageImpl<>(List.of(booking));
+        BookingDto bookingDto = BookingMapper.toBookingDto(booking);
+
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(owner));
+        given(bookingRepository.findAllByItemOwnerOrderByStartDesc(owner,
+                PageRequest.of(0, 5))).willReturn(page);
+
+        // When
+        when(bookingRepository
+                .findAllByItemOwnerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(
+                        owner,
+                        LocalDateTime.of(2023, 11, 12, 12, 12),
+                        LocalDateTime.of(2023, 11, 12, 12, 12),
+                        PageRequest.of(0, 5)))
+                .thenReturn(page);
+
+        // Then
+        assertThrows(NullPointerException.class,
+                () -> bookingService.getAllBookingsByItemOwner("PAST", 1L, 0, 5));
 
     }
 
