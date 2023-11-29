@@ -124,10 +124,15 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     //b.start < ?2 and b.end <= ?2
     Page<Booking> findAllByBookerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(User booker, LocalDateTime now1, LocalDateTime now2, Pageable pageable);
+
 ////////////////////
+
    // Page<Booking> findAllByBookerOrderByStartDesc(User booker, PageRequest pageRequest);
+
     Page<Booking> findAllByBookerOrderByStartDesc(User booker, Pageable pageable);
+
 /////////////////////////////////
+    
     //ITEM OWNER
     Page<Booking> findAllByItemOwnerAndStatusOrderByStartDesc(User owner, BookingStatus status, Pageable pageable);
 
