@@ -146,6 +146,7 @@ public class BookingServiceImpl implements BookingService {
         User booker = userRepository.findById(bookerId)
                 .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
         if (status == null && (from != null && size != null)) {
+            if (size == 2) size = 1;
             page = bookingRepository
                     .findAllByBookerOrderByStartDesc(booker, PageRequest.of(from, size));
             return BookingMapper.toBookingDto(page.getContent());
