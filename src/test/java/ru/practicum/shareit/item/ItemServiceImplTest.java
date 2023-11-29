@@ -3,11 +3,13 @@ package ru.practicum.shareit.item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.exception.*;
@@ -18,7 +20,6 @@ import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.item.repository.CommentRepository;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.service.impl.ItemServiceImpl;
 import ru.practicum.shareit.user.model.User;
@@ -39,23 +40,8 @@ import static org.mockito.BDDMockito.given;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class ItemServiceImplTest {
 
-//    @Mock
-//    ItemService itemService;
-//
-//    @Mock
-//    UserService userService;
-//
-//    @Mock
-//    ItemRepository itemRepository;
-//
-//    @Mock
-//    UserRepository userRepository;
-
     @Mock
     ItemRepository itemRepository;
-
-    @Mock
-    CommentRepository commentRepository;
 
     @Mock
     BookingRepository bookingRepository;
@@ -67,9 +53,7 @@ public class ItemServiceImplTest {
     ItemServiceImpl itemService;
 
     private Item item;
-//    private ItemDto itemDto;
     private User user;
-
 
     @BeforeEach
     public void setup() {
@@ -90,22 +74,11 @@ public class ItemServiceImplTest {
         );
 
         item.setId(1L);
-//
-//        itemDto = new ItemDto(
-//                1L,
-//                "item",
-//                "description",
-//                false,
-//                null
-//        );
-
 
     }
 
     @Test
     void shouldSaveItem() {
-//        User user = new User("user", "user@mail.com");
-//        Item item = new Item("item", "desc", true, user, null);
 
         ItemDto itemDto = ItemMapper.toItemDto(item);
 
@@ -399,11 +372,9 @@ public class ItemServiceImplTest {
     void shouldMapItemsToItemWithBookingDtoBookingsAreNull() {
         // Given
         User itemOwner1 = new User("user1", "user1@mail.com");
-       // User itemOwner2 = new User("user2", "user2@mail.com");
         User author = new User("author", "author@mail.com");
 
         itemOwner1.setId(1L);
-       // itemOwner2.setId(2L);
         author.setId(3L);
 
         Item item1 = new Item(
@@ -413,14 +384,6 @@ public class ItemServiceImplTest {
                 itemOwner1,
                 1L
         );
-
-//        Item item2 = new Item(
-//                "item2",
-//                "desc",
-//                true,
-//                itemOwner2,
-//                2L
-//        );
 
         Booking nextBooking = new Booking(
                 LocalDateTime.of(2023, 12, 5, 12, 12),
@@ -445,25 +408,14 @@ public class ItemServiceImplTest {
         );
 
         CommentDto commentDto = CommentMapper.toCommentDto(comment, item1, "author");
-//
-//        userRepository.save(itemOwner1);
-//        userRepository.save(author);
-//
-//        itemRepository.save(item1);
-//
-//        bookingRepository.save(nextBooking);
-//        bookingRepository.save(lastBooking);
 
         List<Item> items = List.of(item1);
         List<Booking> bookings = List.of(nextBooking, lastBooking);
         List<CommentDto> comments = List.of(commentDto);
 
-//        when(userRepository.findAll()).thenReturn(List.of(itemOwner1, author));
-//        when(itemRepository.findAll()).thenReturn(List.of(item1));
-//        when(bookingRepository.findAll()).thenReturn(List.of(nextBooking, lastBooking));
-
         given(itemRepository.findById(item1.getId())).willReturn(Optional.of(item1));
 
+        // When
         List<ItemWithBookingDto> itemWithBookingDtos = ItemMapper.toItemDtoWithBookings(
                 items,
                 bookings,
@@ -473,7 +425,7 @@ public class ItemServiceImplTest {
                 comments
         );
 
-        System.out.println(itemWithBookingDtos);
+        // Then
         assertNotNull(itemWithBookingDtos);
         assertThat(itemWithBookingDtos.get(0).getName()).isEqualTo(item1.getName());
         assertThat(itemWithBookingDtos.get(0).getDescription()).isEqualTo(item1.getDescription());
@@ -545,6 +497,7 @@ public class ItemServiceImplTest {
 
         given(itemRepository.findById(item2.getId())).willReturn(Optional.of(item2));
 
+        // When
         List<ItemWithBookingDto> itemWithBookingDtos = ItemMapper.toItemDtoWithBookings(
                 items,
                 bookings,
@@ -554,6 +507,7 @@ public class ItemServiceImplTest {
                 comments
         );
 
+        // Then
         assertNotNull(itemWithBookingDtos);
         assertThat(itemWithBookingDtos.get(0).getId()).isEqualTo(2L);
         assertThat(itemWithBookingDtos.get(0).getName()).isEqualTo(item2.getName());
@@ -643,61 +597,6 @@ public class ItemServiceImplTest {
         assertNotNull(itemDto);
 
     }
-//    @Test
-//    void shouldSaveComment() {
-//        // Given
-//        Item newItem = new Item(
-//                "item",
-//                "desc",
-//                true,
-//                user,
-//                1L
-//        );
-//
-//        newItem.setId(1L);
-//
-//        User author = new User(
-//                "author",
-//                "author@mail.com"
-//        );
-//
-//        Comment comment = new Comment(
-//                1L,
-//                "text",
-//                newItem,
-//                author,
-//                LocalDateTime.of(2023, 11, 30, 11, 30)
-//        );
-//
-//
-//
-//        Booking booking = new Booking(
-//                LocalDateTime.of(2023, 10, 24, 12, 20),
-//                LocalDateTime.of(LocalDate.of(2023, 11, 20), LocalTime.of(10, 23)),
-//                newItem,
-//                author
-//        );
-//
-//        author.setId(1L);
-//
-//        given(itemRepository.findById(anyLong())).willReturn(Optional.of(newItem));
-//        given(userRepository.findById(anyLong())).willReturn(Optional.of(author));
-//
-//        given(bookingRepository.findById(anyLong())).willReturn(Optional.of(booking));
-//
-//        when(bookingRepository
-//                .findBookingsByItemAndOwnerOrderByStartDesc(
-//                        1L, author, LocalDateTime.of(
-//                                anyInt(), anyInt(), 30, anyInt(), anyInt(), anyInt(), anyInt())
-//                )).thenReturn(List.of(booking));
-//
-//        // When
-//        when(commentRepository.save(comment)).thenReturn(comment);
-//
-//        CommentDto commentDto = itemService.saveComment(comment, 1L, 1L);
-//
-//
-//    }
 
     @Test
     void shouldMapItemWithRequestIdToItemDto() {
@@ -724,9 +623,9 @@ public class ItemServiceImplTest {
 
     @Test
     void shouldMapListOfCommentsToAListOfCommentDtos() {
+        // Given
         User user1 = new User("user1", "user1@mail.com");
         User user2 = new User("user2", "user2@mail.com");
-
 
         Comment comment1 = new Comment(
                 1L,
@@ -749,9 +648,10 @@ public class ItemServiceImplTest {
         CommentDto commentDto1 = CommentMapper.toCommentDto(comment1, item, "user1");
         CommentDto commentDto2 = CommentMapper.toCommentDto(comment2, item, "user2");
 
-
+        // When
         List<CommentDto> commentDtos = CommentMapper.toCommentDto(comments);
 
+        // Then
         assertNotNull(commentDtos);
         assertThat(commentDtos.contains(commentDto1));
         assertThat(commentDtos.contains(commentDto2));

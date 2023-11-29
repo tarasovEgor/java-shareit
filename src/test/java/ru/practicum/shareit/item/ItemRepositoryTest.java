@@ -3,9 +3,11 @@ package ru.practicum.shareit.item;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
+
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.model.User;
@@ -13,6 +15,7 @@ import ru.practicum.shareit.user.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -28,9 +31,6 @@ public class ItemRepositoryTest {
 
     @Autowired
     private ItemRepository itemRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     private Item item;
 
@@ -281,6 +281,4 @@ public class ItemRepositoryTest {
         assertThat(owner1Items.contains(item2));
         assertThat(!owner1Items.contains(item3));
     }
-
-
 }

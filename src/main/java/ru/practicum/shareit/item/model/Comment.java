@@ -10,7 +10,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 
 import java.time.LocalDateTime;
 
-
 @Data
 @Entity
 @Table(

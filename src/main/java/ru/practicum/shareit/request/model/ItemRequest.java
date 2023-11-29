@@ -5,6 +5,7 @@ import lombok.Data;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -44,12 +45,6 @@ public class ItemRequest {
             name = "requestor_id"
     )
     private User requestor;
-
-//    @ManyToOne
-//    @JoinColumn(
-//            name = "item_id"
-//    )
-//    private Item item;
 
     @Column(
             name = "created"

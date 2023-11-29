@@ -3,9 +3,11 @@ package ru.practicum.shareit.booking;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
+
 import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
@@ -28,12 +30,6 @@ public class BookingRepositoryTest {
 
     @Autowired
     private BookingRepository bookingRepository;
-
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Autowired
-//    private ItemRepository itemRepository;
 
     private User booker;
     private User owner;
@@ -77,14 +73,16 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindBookerByIdAndBooker() {
-
+        // Given
         em.persist(owner);
         em.persist(booker);
         em.persist(item);
         em.persist(booking);
 
+        // When
         Booking foundBooking = bookingRepository.findBookingByIdAndBooker(booking.getId(), booker);
 
+        // Then
         assertThat(foundBooking.getStart()).isEqualTo(booking.getStart());
         assertThat(foundBooking.getEnd()).isEqualTo(booking.getEnd());
         assertThat(foundBooking.getItem()).isEqualTo(booking.getItem());
@@ -94,14 +92,16 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindBookingByIdAndItemOwner() {
-
+        // Given
         em.persist(booker);
         em.persist(owner);
         em.persist(item);
         em.persist(booking);
 
+        // When
         Booking foundBooking = bookingRepository.findBookingByIdAndItemOwner(booking.getId(), owner);
 
+        // Then
         assertThat(foundBooking.getStart()).isEqualTo(booking.getStart());
         assertThat(foundBooking.getEnd()).isEqualTo(booking.getEnd());
         assertThat(foundBooking.getItem()).isEqualTo(booking.getItem());
@@ -111,7 +111,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindAllBookingsByBooker() {
-
+        // Given
         User otherBooker = new User(
                 "other",
                 "other@mail.com"
@@ -139,8 +139,10 @@ public class BookingRepositoryTest {
         em.persist(additionalBooking);
         em.persist(otherBooking);
 
+        // When
         List<Booking> bookings = bookingRepository.findAllBookingsByBooker(booker);
 
+        // Then
         assertThat(bookings.size()).isEqualTo(2);
         assertThat(bookings.contains(booking)).isTrue();
         assertThat(bookings.contains(additionalBooking)).isTrue();
@@ -150,7 +152,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindAllBookingsByItemOwner() {
-
+        // Given
         Item additionalItem = new Item(
                 "additionalItem",
                 "desc",
@@ -173,8 +175,10 @@ public class BookingRepositoryTest {
         em.persist(booking);
         em.persist(additionalBooking);
 
+        // When
         List<Booking> bookings = bookingRepository.findAllBookingsByItemOwner(owner);
 
+        // Then
         assertThat(bookings.size()).isEqualTo(2);
         assertThat(bookings.contains(booking)).isTrue();
         assertThat(bookings.contains(additionalBooking)).isTrue();
@@ -183,7 +187,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindAllBookingsByBookerAndStatus() {
-
+        // Given
         Booking bookingWaiting = new Booking(
                 LocalDateTime.of(23, 10, 12, 23, 23, 00),
                 LocalDateTime.of(23, 10, 16, 12, 43, 00),
@@ -200,9 +204,11 @@ public class BookingRepositoryTest {
         em.persist(booking);
         em.persist(bookingWaiting);
 
+        // When
         List<Booking> waitingBookings = bookingRepository
                 .findAllBookingsByBookerAndStatus(booker, BookingStatus.WAITING);
 
+        // Then
         assertThat(waitingBookings.contains(bookingWaiting)).isTrue();
         assertThat(waitingBookings.contains(booking)).isFalse();
 
@@ -210,7 +216,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindAllBookingsByBookerAndStatusCurrent() {
-
+        // Given
         User anotherBooker = new User(
                 "user",
                 "another@mail.com"
@@ -241,12 +247,14 @@ public class BookingRepositoryTest {
         em.persist(bookingCurrent1);
         em.persist(bookingCurrent2);
 
+        // When
         List<Booking> currentBookings = bookingRepository
                 .findAllBookingsByBookerAndStatusCurrent(anotherBooker, LocalDateTime.of(
                         23, 11, 21, 10, 16, 13
                         )
                 );
 
+        // Then
         assertThat(currentBookings.size()).isEqualTo(2);
         assertThat(currentBookings.contains(bookingCurrent1)).isTrue();
         assertThat(currentBookings.contains(bookingCurrent2)).isTrue();
@@ -256,7 +264,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindAllBookingsByBookerAndStatusPast() {
-
+        // Given
         User anotherBooker = new User(
                 "user",
                 "another@mail.com"
@@ -287,12 +295,14 @@ public class BookingRepositoryTest {
         em.persist(bookingPast1);
         em.persist(bookingPast2);
 
+        // When
         List<Booking> pastBookings = bookingRepository
                 .findAllBookingsByBookerAndStatusPast(anotherBooker, LocalDateTime.of(
                         23, 12, 5, 23, 54, 00
                         )
                 );
 
+        // Then
         assertThat(pastBookings.size()).isEqualTo(2);
         assertThat(pastBookings.contains(bookingPast1)).isTrue();
         assertThat(pastBookings.contains(bookingPast2)).isTrue();
@@ -302,7 +312,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindAllBookingsByItemOwnerAndStatus() {
-
+        // Given
         Item anotherItem = new Item(
                 "another",
                 "desc",
@@ -328,9 +338,11 @@ public class BookingRepositoryTest {
         em.persist(booking);
         em.persist(bookingApproved);
 
+        // When
         List<Booking> approvedBookings = bookingRepository
                 .findAllBookingsByItemOwnerAndStatus(owner, BookingStatus.APPROVED);
 
+        // Then
         assertThat(approvedBookings.contains(bookingApproved)).isTrue();
         assertThat(approvedBookings.contains(booking)).isFalse();
 
@@ -338,7 +350,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindAllBookingsByItemOwnerAndStatusCurrent() {
-
+        // Given
         Item anotherItem = new Item(
                 "item",
                 "desc",
@@ -372,12 +384,14 @@ public class BookingRepositoryTest {
         em.persist(bookingCurrent1);
         em.persist(bookingCurrent2);
 
+        // When
         List<Booking> currentBookings = bookingRepository
                 .findAllBookingsByItemOwnerAndStatusCurrent(owner, LocalDateTime.of(
                                 23, 11, 21, 10, 16, 13
                         )
                 );
 
+        // Then
         assertThat(currentBookings.size()).isEqualTo(2);
         assertThat(currentBookings.contains(bookingCurrent1)).isTrue();
         assertThat(currentBookings.contains(bookingCurrent2)).isTrue();
@@ -387,7 +401,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindAllBookingsByItemOwnerAndStatusPast() {
-
+        // Given
         Item anotherItem = new Item(
                 "item",
                 "desc",
@@ -421,12 +435,14 @@ public class BookingRepositoryTest {
         em.persist(bookingPast1);
         em.persist(bookingPast2);
 
+        // When
         List<Booking> pastBookings = bookingRepository
                 .findAllBookingsByItemOwnerAndStatusPast(owner, LocalDateTime.of(
                                 23, 12, 5, 23, 54, 00
                         )
                 );
 
+        // Then
         assertThat(pastBookings.size()).isEqualTo(2);
         assertThat(pastBookings.contains(bookingPast1)).isTrue();
         assertThat(pastBookings.contains(bookingPast2)).isTrue();
@@ -436,7 +452,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindFirstByItemOwnerAndStartIsBeforeNow() {
-
+        // Given
         Item anotherItem = new Item(
                 "anotherItem",
                 "anotherDesc",
@@ -462,11 +478,13 @@ public class BookingRepositoryTest {
         em.persist(booking);
         em.persist(bookingPast);
 
+        // When
         Booking lastBooking = bookingRepository
                 .findFirstByItemOwnerAndStartIsBeforeOrderByStartDesc(owner, LocalDateTime.of(
                         23, 11, 25, 23, 10,00)
                 );
 
+        // Then
         assertThat(lastBooking.getStart()).isEqualTo(bookingPast.getStart());
         assertThat(lastBooking.getEnd()).isEqualTo(bookingPast.getEnd());
         assertThat(lastBooking.getItem()).isEqualTo(anotherItem);
@@ -476,7 +494,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindFirstByItemOwnerAndStartIsAfterNow() {
-
+        // Given
         Item anotherItem = new Item(
                 "anotherItem",
                 "anotherDesc",
@@ -502,12 +520,14 @@ public class BookingRepositoryTest {
         em.persist(booking);
         em.persist(bookingUpcoming);
 
+        // When
         Booking nextBooking = bookingRepository
                 .findFirstByItemOwnerAndStartIsAfterOrderByStartAsc(owner, LocalDateTime.of(
                         23, 11, 25, 15, 20, 00
                         )
                 );
 
+        // Given
         assertThat(nextBooking.getStart()).isEqualTo(bookingUpcoming.getStart());
         assertThat(nextBooking.getEnd()).isEqualTo(bookingUpcoming.getEnd());
         assertThat(nextBooking.getItem()).isEqualTo(anotherItem);
@@ -517,7 +537,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindFirstByItemOwnerAndStartIsAfterNowAndStatusWaiting() {
-
+        // When
         Item anotherItem = new Item(
                 "anotherItem",
                 "anotherDesc",
@@ -546,11 +566,13 @@ public class BookingRepositoryTest {
         em.persist(booking);
         em.persist(bookingUpcoming);
 
+        // When
         Booking nextBooking = bookingRepository
                 .findFirstByItemOwnerAndStartIsAfterAndStatusOrderByStartAsc(owner, LocalDateTime.of(
                                 23, 11, 25, 15, 20, 00
                         ), BookingStatus.WAITING);
 
+        // Then
         assertThat(nextBooking.getStart()).isEqualTo(bookingUpcoming.getStart());
         assertThat(nextBooking.getEnd()).isEqualTo(bookingUpcoming.getEnd());
         assertThat(nextBooking.getItem()).isEqualTo(anotherItem);
@@ -563,7 +585,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindFirstByItemOwnerAndStartIsBeforeNowAndStatusWaiting() {
-
+        // Given
         Item anotherItem = new Item(
                 "anotherItem",
                 "anotherDesc",
@@ -591,12 +613,14 @@ public class BookingRepositoryTest {
         em.persist(booking);
         em.persist(bookingPast);
 
+        // When
         Booking lastBooking = bookingRepository
                 .findFirstByItemOwnerAndStartIsBeforeAndStatusOrderByStartDesc(owner, LocalDateTime.of(
                         23, 11, 25, 23, 10,00),
                         BookingStatus.WAITING
                 );
 
+        // Then
         assertThat(lastBooking.getStart()).isEqualTo(bookingPast.getStart());
         assertThat(lastBooking.getEnd()).isEqualTo(bookingPast.getEnd());
         assertThat(lastBooking.getItem()).isEqualTo(anotherItem);
@@ -610,7 +634,7 @@ public class BookingRepositoryTest {
 
     @Test
     void shouldFindBookingsByItemIdAndBooker() {
-
+        // Given
         Item anotherItem = new Item(
                 "anotherItem",
                 "anotherDesc",
@@ -633,6 +657,7 @@ public class BookingRepositoryTest {
         em.persist(booking);
         em.persist(anotherBooking);
 
+        // When
         List<Booking> foundBookingsForItem = bookingRepository
                 .findBookingsByItemAndOwnerOrderByStartDesc(item.getId(), booker, LocalDateTime.of(
                                 23, 12, 25, 12, 23, 00
@@ -645,6 +670,7 @@ public class BookingRepositoryTest {
                     )
                 );
 
+        // Then
         assertNotNull(foundBookingsForItem);
         assertNotNull(foundBookingsForAnotherItem);
         assertThat(foundBookingsForItem).isNotEqualTo(foundBookingsForAnotherItem);

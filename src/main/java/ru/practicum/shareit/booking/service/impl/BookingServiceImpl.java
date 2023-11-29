@@ -116,29 +116,6 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
-/*    @Override
-    public List<BookingDto> getAllBookingsByBooker(String state, long bookerId) {
-        BookingValidation.isBookingStateValid(state);
-        Optional<User> booker = Optional.of(userRepository.findById(bookerId))
-                .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist"));
-        if (state != null) {
-            if (state.equals(String.valueOf(BookingState.WAITING))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByBookerAndStatus(booker.get(), BookingStatus.WAITING));
-            } else if (state.equals(String.valueOf(BookingStatus.REJECTED))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByBookerAndStatus(booker.get(), BookingStatus.REJECTED));
-            } else if (state.equals(String.valueOf(BookingState.CURRENT))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByBookerAndStatusCurrent(booker.get(), LocalDateTime.now()));
-            } else if (state.equals(String.valueOf(BookingState.PAST))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByBookerAndStatusPast(booker.get(), LocalDateTime.now()));
-            }
-        }
-        return BookingMapper.toBookingDto(bookingRepository.findAllBookingsByBooker(booker.get()));
-    }*/
-
     @Override
     public List<BookingDto> getAllBookingsByBooker(String status, long bookerId, Integer from, Integer size) {
         BookingValidation.isBookingStateValid(status);
@@ -178,30 +155,6 @@ public class BookingServiceImpl implements BookingService {
                 return BookingMapper.toBookingDto(page.getContent());
         }
     }
-
-
-/*    @Override
-    public List<BookingDto> getAllBookingsByItemOwner(String state, long ownerId) {
-        BookingValidation.isBookingStateValid(state);
-        Optional<User> owner = Optional.of(userRepository.findById(ownerId))
-                .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
-        if (state != null) {
-            if (state.equals(String.valueOf(BookingState.WAITING))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByItemOwnerAndStatus(owner.get(), BookingStatus.WAITING));
-            } else if (state.equals(String.valueOf(BookingStatus.REJECTED))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByItemOwnerAndStatus(owner.get(), BookingStatus.REJECTED));
-            } else if (state.equals(String.valueOf(BookingState.CURRENT))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByItemOwnerAndStatusCurrent(owner.get(), LocalDateTime.now()));
-            } else if (state.equals(String.valueOf(BookingState.PAST))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByItemOwnerAndStatusPast(owner.get(), LocalDateTime.now()));
-            }
-        }
-        return BookingMapper.toBookingDto(bookingRepository.findAllBookingsByItemOwner(owner.get()));
-    }*/
 
     @Override
     public List<BookingDto> getAllBookingsByItemOwner(String status, long ownerId, Integer from, Integer size) {

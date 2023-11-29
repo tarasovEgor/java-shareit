@@ -66,9 +66,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         ItemRequest itemRequest = itemRequestRepository.findById(requestId)
                 .orElseThrow(() -> new ItemRequestDoesNotExistException("Item request does not exist."));
         return ItemRequestMapper.toItemRequestDto(
-//                itemRequestRepository.findFirstById(requestId),
-//                itemRequestRepository.findFirstById(requestId).getRequestor(),
-//                itemRepository
                 itemRequest,
                 itemRequest.getRequestor(),
                 itemRepository

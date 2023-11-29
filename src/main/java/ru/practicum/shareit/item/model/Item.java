@@ -55,11 +55,6 @@ public class Item {
     )
     private User owner;
 
-//    @ManyToOne
-//    @JoinColumn(name = "request_id")
-//    @Column(
-//            name = "request_id"
-//    )
     private Long requestId;
 
     public Item() {

@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
 import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.booking.controller.BookingController;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -38,34 +40,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(BookingController.class)
 public class BookingControllerTest {
 
-//    @MockBean
-//    private UserService userService;
-//
-//    @MockBean
-//    private ItemService itemService;
-
     @MockBean
     private BookingService bookingService;
 
-//    @MockBean
-//    private ItemRepository itemRepository;
-//
-//    @MockBean
-//    private UserRepository userRepository;
-//
-//    @MockBean
-//    private BookingRepository bookingRepository;
-
     @Autowired
     MockMvc mockMvc;
-
-    private User itemOwner;
-    private User itemBooker;
-    private Item item;
-    private Booking booking;
-
-//    @Autowired
-//    private JacksonTester<User> jsonRequestAttempt;
 
     @Autowired
     private JacksonTester<BookingDto> jsonRequestAttemptBooking;
@@ -73,15 +52,13 @@ public class BookingControllerTest {
     @Autowired
     private JacksonTester<BookingDto> jsonResultAttemptBooking;
 
-//    @Autowired
-//    private JacksonTester<UserDto> jsonResultAttempt;
+    private User itemOwner;
+    private User itemBooker;
+    private Item item;
+    private Booking booking;
 
     @BeforeEach
     void setUp() {
-
-//        mockMvc = MockMvcBuilders
-//                      .standaloneSetup(controller)
-//                      .build();
 
         itemOwner = new User(
                 "owner",

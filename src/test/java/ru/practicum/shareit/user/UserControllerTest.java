@@ -2,6 +2,7 @@ package ru.practicum.shareit.user;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
 import ru.practicum.shareit.user.controller.UserController;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
@@ -102,8 +104,6 @@ public class UserControllerTest {
         given(userService
                 .getAllUsers())
                 .willReturn(List.of(userDto1, userDto2, userDto3));
-
-       // List<UserDto> checkList = Arrays.asList(userDto1, userDto2, userDto3);
 
         // When
         mockMvc.perform(get("/users"))

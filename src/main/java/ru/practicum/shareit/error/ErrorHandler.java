@@ -11,14 +11,6 @@ import ru.practicum.shareit.exception.*;
 @RestControllerAdvice
 public class ErrorHandler {
 
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.CONFLICT)
-//    public ErrorResponse handleUserDuplicateEmailException(final UserDuplicateEmailException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
-
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleInvalidEmailException(final InvalidEmailException e) {
@@ -34,14 +26,6 @@ public class ErrorHandler {
                 e.getMessage()
         );
     }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    public ErrorResponse handleOwnerNotFoundException(final OwnerNotFoundException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -66,22 +50,6 @@ public class ErrorHandler {
                 e.getMessage()
         );
     }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleInvalidItemPropertiesException(final InvalidItemPropertiesException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleOwnerDoesNotExistException(final OwnerDoesNotExistException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)

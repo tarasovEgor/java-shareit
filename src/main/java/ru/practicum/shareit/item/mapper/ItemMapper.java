@@ -1,6 +1,5 @@
 package ru.practicum.shareit.item.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.practicum.shareit.booking.dto.BookingWithBookerIdDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
@@ -10,7 +9,6 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemWithBookingDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
-import ru.practicum.shareit.request.repository.ItemRequestRepository;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.ArrayList;
@@ -21,9 +19,6 @@ import java.util.Optional;
 import java.time.LocalDateTime;
 
 public class ItemMapper {
-
-    @Autowired
-    private static ItemRequestRepository itemRequestRepository;
 
     public static ItemDto toItemDto(Item item) {
         if (item.getRequestId() != null) {
@@ -110,7 +105,6 @@ public class ItemMapper {
 
     public static Item toItem(ItemDto itemDto, User owner) {
        Item item = new Item();
-       //Optional<ItemRequest> itemRequest = itemRequestRepository.findById(itemDto.getRequestId());
 
        item.setOwner(owner);
        item.setName(itemDto.getName());

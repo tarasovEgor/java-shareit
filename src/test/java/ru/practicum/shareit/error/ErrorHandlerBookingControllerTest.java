@@ -3,7 +3,9 @@ package ru.practicum.shareit.error;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.Mock;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.booking.controller.BookingController;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -22,7 +25,6 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
-
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -41,16 +43,12 @@ public class ErrorHandlerBookingControllerTest {
     @Mock
     private BookingController bookingController;
 
-//    @Mock
-//    private BookingService bookingService;
-
     @Autowired
     private JacksonTester<BookingDto> jsonRequestAttemptBookingDto;
 
     private User itemOwner;
     private User booker;
     private Item item;
-    private Booking booking;
 
     @BeforeEach
     void setUp() {
@@ -220,14 +218,6 @@ public class ErrorHandlerBookingControllerTest {
 
     @Test
     void checkUnsupportedBookingStatusExceptionsByBookerAreCaughtAndStatus400() throws Exception {
-//        // Given
-//        Booking booking = new Booking(
-//                LocalDateTime.of(2023, 11, 25, 12, 10, 00),
-//                LocalDateTime.of(2023, 12, 26, 12, 10, 00),
-//                item,
-//                booker
-//        );
-
         // When
         when(bookingController
                 .getAllBookingsByBooker(0, 5, "UNSUPPORTED", 2L))
@@ -247,14 +237,6 @@ public class ErrorHandlerBookingControllerTest {
 
     @Test
     void checkUnsupportedBookingStatusExceptionsByItemOwnerAreCaughtAndStatus400() throws Exception {
-//        // Given
-//        Booking booking = new Booking(
-//                LocalDateTime.of(2023, 11, 25, 12, 10, 00),
-//                LocalDateTime.of(2023, 12, 26, 12, 10, 00),
-//                item,
-//                booker
-//        );
-
         // When
         when(bookingController
                 .getAllBookingsByItemOwner(0, 5, "UNSUPPORTED", 1L))
@@ -335,33 +317,4 @@ public class ErrorHandlerBookingControllerTest {
 
     }
 
-
-    /*@Test
-    void checkInvalidItemNameExceptionsAreCaughtAndStatusIs400() throws Exception {
-        // Given
-        Item item = new Item(
-                "",
-                "desc",
-                true,
-                itemOwner,
-                1L
-        );
-
-        // When
-        when(itemController
-                .saveItem(item, 1L))
-                .thenThrow(new InvalidItemNameException("Invalid item name exception"));
-
-        // Then
-        mockMvc.perform(
-                post("/items")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequestAttemptItem.write(item).getJson())
-                        .header("X-Sharer-User-Id", 1))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error")
-                        .value("Invalid item name exception"));
-
-    }*/
 }

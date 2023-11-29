@@ -3,6 +3,7 @@ package ru.practicum.shareit.request;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.controller.ItemRequestController;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
@@ -44,17 +46,17 @@ public class ItemRequestControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private ItemRequest itemRequest;
-    private ItemRequestDto itemRequestDto;
-    private Item item;
-    private User itemOwner;
-    private User requestor;
-
     @Autowired
     private JacksonTester<ItemRequest> jsonRequestAttemptItemRequest;
 
     @Autowired
     private JacksonTester<ItemRequestDto> jsonResultAttemptItemRequestDto;
+
+    private ItemRequest itemRequest;
+    private ItemRequestDto itemRequestDto;
+    private Item item;
+    private User itemOwner;
+    private User requestor;
 
     @BeforeEach
     void setUp() {
@@ -130,7 +132,6 @@ public class ItemRequestControllerTest {
         mockMvc.perform(
                 get("/requests")
                         .contentType(MediaType.APPLICATION_JSON)
-                        //.content(jsonRequestAttemptItemRequest.write(itemRequest).getJson())
                         .header("X-Sharer-User-Id", 2))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -151,7 +152,6 @@ public class ItemRequestControllerTest {
         // When
         MockHttpServletResponse response = mockMvc.perform(
                 get("/requests/1")
-                      //  .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .header("X-Sharer-User-Id", 2))
                 .andReturn().getResponse();
