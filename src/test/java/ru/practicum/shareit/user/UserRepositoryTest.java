@@ -21,12 +21,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class UserRepositoryTest {
 
     @Autowired
-    TestEntityManager entityManager;
+    private TestEntityManager entityManager;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    User user;
+    private User user;
 
     @BeforeEach
     public void setUp() {

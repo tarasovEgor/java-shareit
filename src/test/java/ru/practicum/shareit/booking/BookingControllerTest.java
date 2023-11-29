@@ -44,7 +44,7 @@ public class BookingControllerTest {
     private BookingService bookingService;
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
     private JacksonTester<BookingDto> jsonRequestAttemptBooking;

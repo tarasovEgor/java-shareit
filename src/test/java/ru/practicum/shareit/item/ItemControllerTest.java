@@ -50,7 +50,7 @@ public class ItemControllerTest {
     private UserService userService;
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
     private JacksonTester<Item> jsonRequestAttemptItem;

@@ -38,7 +38,7 @@ public class UserControllerTest {
     private UserServiceImpl userService;
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
     private JacksonTester<User> jsonRequestAttempt;
