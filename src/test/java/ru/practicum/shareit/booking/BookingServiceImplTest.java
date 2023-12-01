@@ -4,8 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
@@ -81,7 +83,7 @@ public class BookingServiceImplTest {
         );
 
         booking = new Booking(
-                LocalDateTime.of(2023, 11, 30, 12, 45, 00),
+                LocalDateTime.of(2023, 12, 5, 12, 45, 00),
                 LocalDateTime.of(2023, 12, 15, 17, 45, 00),
                 item,
                 booker
@@ -114,6 +116,7 @@ public class BookingServiceImplTest {
         assertThat(savedBooking.getStatus()).isEqualTo(booking.getStatus());
         assertThat(savedBooking.getBooker()).isEqualTo(booker);
 
+        verify(bookingRepository, times(1)).save(any(Booking.class));
     }
 
     @Test
@@ -124,6 +127,9 @@ public class BookingServiceImplTest {
         // Then
         assertThrows(ItemDoesNotExistException.class,
                 () -> bookingService.saveBooking(bookingDto, 112L));
+
+        verify(bookingRepository, never()).save(any(Booking.class));
+
     }
 
     @Test
@@ -145,6 +151,9 @@ public class BookingServiceImplTest {
         // Then
         assertThrows(InvalidItemOwnerException.class,
                 () -> bookingService.saveBooking(bookingDto, 1));
+
+        verify(bookingRepository, never()).save(any(Booking.class));
+
     }
 
     @Test
@@ -161,6 +170,9 @@ public class BookingServiceImplTest {
         // Then
         assertThrows(ItemIsUnavailableException.class,
                 () -> bookingService.saveBooking(bookingDto, 2L));
+
+        verify(bookingRepository, never()).save(any(Booking.class));
+
     }
 
     @Test
@@ -182,6 +194,9 @@ public class BookingServiceImplTest {
         // Then
         assertThrows(InvalidBookingDateException.class,
                 () -> bookingService.saveBooking(bookingDto, 2L));
+
+        verify(bookingRepository, never()).save(any(Booking.class));
+
     }
 
     @Test
@@ -203,6 +218,9 @@ public class BookingServiceImplTest {
         // Then
         assertThrows(InvalidBookingDateException.class,
                 () -> bookingService.saveBooking(bookingDto, 2));
+
+        verify(bookingRepository, never()).save(any(Booking.class));
+
     }
 
     @Test
@@ -224,6 +242,9 @@ public class BookingServiceImplTest {
         // Then
         assertThrows(InvalidBookingDateException.class,
                 () -> bookingService.saveBooking(bookingDto, 2L));
+
+        verify(bookingRepository, never()).save(any(Booking.class));
+
     }
 
     @Test
@@ -245,6 +266,9 @@ public class BookingServiceImplTest {
         // Then
         assertThrows(InvalidBookingDateException.class,
                 () -> bookingService.saveBooking(bookingDto, 2L));
+
+        verify(bookingRepository, never()).save(any(Booking.class));
+
     }
 
     @Test
@@ -266,6 +290,9 @@ public class BookingServiceImplTest {
         // Then
         assertThrows(InvalidBookingDateException.class,
                 () -> bookingService.saveBooking(bookingDto, 2L));
+
+        verify(bookingRepository, never()).save(any(Booking.class));
+
     }
 
     @Test
@@ -286,6 +313,9 @@ public class BookingServiceImplTest {
         assertThat(bookingDto.getItem()).isEqualTo(item);
         assertThat(bookingDto.getStatus()).isEqualTo(booking.getStatus());
         assertThat(bookingDto.getBooker()).isEqualTo(booker);
+
+        verify(bookingRepository, times(1)).findById(1L);
+        verify(userRepository, times(1)).findById(1L);
 
     }
 
@@ -309,6 +339,10 @@ public class BookingServiceImplTest {
         assertThat(bookingDto.getStatus()).isEqualTo(booking.getStatus());
         assertThat(bookingDto.getBooker()).isEqualTo(booker);
 
+        InOrder inOrder = Mockito.inOrder(bookingRepository);
+        inOrder.verify(bookingRepository).findById(1L);
+        inOrder.verify(bookingRepository).findBookingByIdAndItemOwner(1L, owner);
+
     }
 
     @Test
@@ -327,6 +361,9 @@ public class BookingServiceImplTest {
         assertThat(bookingDto.getItem()).isEqualTo(item);
         assertThat(bookingDto.getStatus()).isEqualTo(BookingStatus.APPROVED);
         assertThat(bookingDto.getBooker()).isEqualTo(booker);
+
+        verify(userRepository, atLeast(1)).findById(1L);
+        verify(bookingRepository, atLeast(1)).findById(1L);
 
     }
 
@@ -347,6 +384,9 @@ public class BookingServiceImplTest {
         assertThat(bookingDto.getStatus()).isEqualTo(BookingStatus.REJECTED);
         assertThat(bookingDto.getBooker()).isEqualTo(booker);
 
+        verify(userRepository, atLeast(1)).findById(1L);
+        verify(bookingRepository, atLeast(1)).findById(1L);
+
     }
 
     @Test
@@ -366,6 +406,9 @@ public class BookingServiceImplTest {
         // Then
         assertThrows(BookingStatusIsAlreadyApprovedException.class,
                 () -> bookingService.updateBookingStatus(1L, true, 1L));
+
+        verify(bookingRepository, never()).updateBookingStatus(BookingStatus.APPROVED, 1L, booker);
+
     }
 
     @Test
@@ -378,6 +421,9 @@ public class BookingServiceImplTest {
         // Then
         assertThrows(BookingNotFoundException.class,
                 () -> bookingService.getBookingById(999L, 2L));
+
+        verify(bookingRepository, never()).findBookingByIdAndBooker(999L, booker);
+
     }
 
     @Test
@@ -403,6 +449,11 @@ public class BookingServiceImplTest {
         assertThat(bookingDtoList.size()).isEqualTo(1);
         assertThat(bookingDtoList.contains(bookingDto)).isTrue();
         assertThat(bookingDtoList.get(0).getStatus()).isEqualTo(BookingStatus.WAITING);
+
+        verify(bookingRepository, never())
+                .findAllByBookerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(
+                        booker, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(1, 1)
+                );
 
     }
 
@@ -432,6 +483,11 @@ public class BookingServiceImplTest {
         assertThat(bookingDtoList.contains(bookingDto)).isTrue();
         assertThat(bookingDtoList.get(0).getStatus()).isEqualTo(BookingStatus.REJECTED);
 
+        verify(bookingRepository, never())
+                .findAllByBookerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(
+                        booker, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(1, 1)
+                );
+
     }
 
     @Test
@@ -456,6 +512,12 @@ public class BookingServiceImplTest {
 
         assertThrows(NullPointerException.class,
                 () -> bookingService.getAllBookingsByBooker("CURRENT", 1L, 1, 1));
+
+        verify(bookingRepository, never())
+                .findAllByBookerAndStatusOrderByStartDesc(
+                    booker, BookingStatus.WAITING, PageRequest.of(1, 1)
+        );
+
     }
 
     @Test
@@ -480,6 +542,12 @@ public class BookingServiceImplTest {
 
         assertThrows(NullPointerException.class,
                 () -> bookingService.getAllBookingsByBooker("PAST", 1L, 1, 1));
+
+        verify(bookingRepository, never())
+                .findAllByBookerAndStatusOrderByStartDesc(
+                        booker, BookingStatus.WAITING, PageRequest.of(1, 1)
+                );
+
     }
 
 
@@ -509,6 +577,9 @@ public class BookingServiceImplTest {
         assertThat(bookingDtoList.size()).isEqualTo(1);
         assertThat(bookingDtoList.contains(bookingDto)).isTrue();
         assertThat(bookingDtoList.get(0).getStatus()).isEqualTo(BookingStatus.WAITING);
+
+        verify(bookingRepository, atLeast(1))
+                .findAllByBookerOrderByStartDesc(booker, PageRequest.of(1, 1));
 
     }
 

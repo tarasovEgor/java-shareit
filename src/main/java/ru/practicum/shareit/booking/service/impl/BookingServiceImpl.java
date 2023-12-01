@@ -117,34 +117,34 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingsByBooker(String status, long bookerId, Integer from, Integer size) {
+    public List<BookingDto> getAllBookingsByBooker(String status, long bookerId, int from, int size) {
         BookingValidation.isBookingStateValid(status);
         Page<Booking> page;
         User booker = userRepository.findById(bookerId)
                 .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
-        if (status == null && (from != null && size != null)) {
+        if (status == null) {
             if (size == 2) size = 1;
             page = bookingRepository
                     .findAllByBookerOrderByStartDesc(booker, PageRequest.of(from, size));
             return BookingMapper.toBookingDto(page.getContent());
         }
-        switch (Objects.requireNonNull(status)) {
-            case ("WAITING"):
+        switch (BookingStatus.valueOf(status)) {
+            case WAITING:
                 page = bookingRepository
                         .findAllByBookerAndStatusOrderByStartDesc(
                                 booker, BookingStatus.WAITING, PageRequest.of(from, size));
                 return BookingMapper.toBookingDto(page.getContent());
-            case ("REJECTED"):
+            case REJECTED:
                 page = bookingRepository
                         .findAllByBookerAndStatusOrderByStartDesc(
                                 booker, BookingStatus.REJECTED, PageRequest.of(from, size));
                 return BookingMapper.toBookingDto(page.getContent());
-            case ("CURRENT"):
+            case CURRENT:
                 page = bookingRepository
                         .findAllByBookerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(
                                 booker, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
                 return BookingMapper.toBookingDto(page.getContent());
-            case ("PAST"):
+            case PAST:
                 page = bookingRepository
                         .findAllByBookerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(
                                 booker, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
@@ -157,33 +157,33 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingsByItemOwner(String status, long ownerId, Integer from, Integer size) {
+    public List<BookingDto> getAllBookingsByItemOwner(String status, long ownerId, int from, int size) {
         BookingValidation.isBookingStateValid(status);
         Page<Booking> page;
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
-        if (status == null && (from != null && size != null)) {
+        if (status == null) {
             page = bookingRepository
                     .findAllByItemOwnerOrderByStartDesc(owner, PageRequest.of(from, size));
             return BookingMapper.toBookingDto(page.getContent());
         }
-        switch (Objects.requireNonNull(status)) {
-            case ("WAITING"):
+        switch (BookingStatus.valueOf(status)) {
+            case WAITING:
                 page = bookingRepository
                         .findAllByItemOwnerAndStatusOrderByStartDesc(
                                 owner, BookingStatus.WAITING, PageRequest.of(from, size));
                 return BookingMapper.toBookingDto(page.getContent());
-            case ("REJECTED"):
+            case REJECTED:
                 page = bookingRepository
                         .findAllByItemOwnerAndStatusOrderByStartDesc(
                                 owner, BookingStatus.REJECTED, PageRequest.of(from, size));
                 return BookingMapper.toBookingDto(page.getContent());
-            case ("CURRENT"):
+            case CURRENT:
                 page = bookingRepository
                         .findAllByItemOwnerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(
                                 owner, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
                 return BookingMapper.toBookingDto(page.getContent());
-            case ("PAST"):
+            case PAST:
                 page = bookingRepository
                         .findAllByItemOwnerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(
                                 owner, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
