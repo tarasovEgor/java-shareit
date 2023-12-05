@@ -1,5 +1,7 @@
 package ru.practicum.shareit.booking.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -98,4 +100,24 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             " order by b.start DESC")
     List<Booking> findBookingsByItemAndOwnerOrderByStartDesc(long itemId, User owner, LocalDateTime now);
 
+    //PAGINATION METHODS
+    //ITEM BOOKER
+    Page<Booking> findAllByBookerAndStatusOrderByStartDesc(User booker, BookingStatus status, Pageable pageable);
+
+    //b.start <= ?2 and b.end >= ?2
+    Page<Booking> findAllByBookerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(User booker, LocalDateTime now1, LocalDateTime now2, Pageable pageable);
+
+    //b.start < ?2 and b.end <= ?2
+    Page<Booking> findAllByBookerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(User booker, LocalDateTime now1, LocalDateTime now2, Pageable pageable);
+
+    Page<Booking> findAllByBookerOrderByStartDesc(User booker, Pageable pageable);
+
+    //ITEM OWNER
+    Page<Booking> findAllByItemOwnerAndStatusOrderByStartDesc(User owner, BookingStatus status, Pageable pageable);
+
+    Page<Booking> findAllByItemOwnerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(User owner, LocalDateTime now1, LocalDateTime now2, Pageable pageable);
+
+    Page<Booking> findAllByItemOwnerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(User owner, LocalDateTime now1, LocalDateTime now2, Pageable pageable);
+
+    Page<Booking> findAllByItemOwnerOrderByStartDesc(User owner, Pageable pageable);
 }

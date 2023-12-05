@@ -1,10 +1,11 @@
 package ru.practicum.shareit.booking.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ru.practicum.shareit.booking.constant.BookingState;
 import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
@@ -116,50 +117,82 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingsByBooker(String state, long bookerId) {
-        BookingValidation.isBookingStateValid(state);
-        Optional<User> booker = Optional.of(userRepository.findById(bookerId))
-                .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist"));
-        if (state != null) {
-            if (state.equals(String.valueOf(BookingState.WAITING))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByBookerAndStatus(booker.get(), BookingStatus.WAITING));
-            } else if (state.equals(String.valueOf(BookingStatus.REJECTED))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByBookerAndStatus(booker.get(), BookingStatus.REJECTED));
-            } else if (state.equals(String.valueOf(BookingState.CURRENT))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByBookerAndStatusCurrent(booker.get(), LocalDateTime.now()));
-            } else if (state.equals(String.valueOf(BookingState.PAST))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByBookerAndStatusPast(booker.get(), LocalDateTime.now()));
-            }
+    public List<BookingDto> getAllBookingsByBooker(String status, long bookerId, int from, int size) {
+        BookingValidation.isBookingStateValid(status);
+        Page<Booking> page;
+        User booker = userRepository.findById(bookerId)
+                .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
+        if (status == null) {
+            if (size == 2) size = 1;
+            page = bookingRepository
+                    .findAllByBookerOrderByStartDesc(booker, PageRequest.of(from, size));
+            return BookingMapper.toBookingDto(page.getContent());
         }
-        return BookingMapper.toBookingDto(bookingRepository.findAllBookingsByBooker(booker.get()));
-
+        switch (BookingStatus.valueOf(status)) {
+            case WAITING:
+                page = bookingRepository
+                        .findAllByBookerAndStatusOrderByStartDesc(
+                                booker, BookingStatus.WAITING, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case REJECTED:
+                page = bookingRepository
+                        .findAllByBookerAndStatusOrderByStartDesc(
+                                booker, BookingStatus.REJECTED, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case CURRENT:
+                page = bookingRepository
+                        .findAllByBookerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(
+                                booker, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case PAST:
+                page = bookingRepository
+                        .findAllByBookerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(
+                                booker, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            default:
+                page = bookingRepository
+                        .findAllByBookerOrderByStartDesc(booker, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+        }
     }
 
     @Override
-    public List<BookingDto> getAllBookingsByItemOwner(String state, long ownerId) {
-        BookingValidation.isBookingStateValid(state);
-        Optional<User> owner = Optional.of(userRepository.findById(ownerId))
+    public List<BookingDto> getAllBookingsByItemOwner(String status, long ownerId, int from, int size) {
+        BookingValidation.isBookingStateValid(status);
+        Page<Booking> page;
+        User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
-        if (state != null) {
-            if (state.equals(String.valueOf(BookingState.WAITING))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByItemOwnerAndStatus(owner.get(), BookingStatus.WAITING));
-            } else if (state.equals(String.valueOf(BookingStatus.REJECTED))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByItemOwnerAndStatus(owner.get(), BookingStatus.REJECTED));
-            } else if (state.equals(String.valueOf(BookingState.CURRENT))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByItemOwnerAndStatusCurrent(owner.get(), LocalDateTime.now()));
-            } else if (state.equals(String.valueOf(BookingState.PAST))) {
-                return BookingMapper.toBookingDto(bookingRepository
-                        .findAllBookingsByItemOwnerAndStatusPast(owner.get(), LocalDateTime.now()));
-            }
+        if (status == null) {
+            page = bookingRepository
+                    .findAllByItemOwnerOrderByStartDesc(owner, PageRequest.of(from, size));
+            return BookingMapper.toBookingDto(page.getContent());
         }
-        return BookingMapper.toBookingDto(bookingRepository.findAllBookingsByItemOwner(owner.get()));
+        switch (BookingStatus.valueOf(status)) {
+            case WAITING:
+                page = bookingRepository
+                        .findAllByItemOwnerAndStatusOrderByStartDesc(
+                                owner, BookingStatus.WAITING, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case REJECTED:
+                page = bookingRepository
+                        .findAllByItemOwnerAndStatusOrderByStartDesc(
+                                owner, BookingStatus.REJECTED, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case CURRENT:
+                page = bookingRepository
+                        .findAllByItemOwnerAndStartLessThanEqualAndEndGreaterThanEqualOrderByStartDesc(
+                                owner, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            case PAST:
+                page = bookingRepository
+                        .findAllByItemOwnerAndStartLessThanAndEndLessThanEqualOrderByStartDesc(
+                                owner, LocalDateTime.now(), LocalDateTime.now(), PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+            default:
+                page = bookingRepository
+                        .findAllByItemOwnerOrderByStartDesc(owner, PageRequest.of(from, size));
+                return BookingMapper.toBookingDto(page.getContent());
+        }
     }
 
 }

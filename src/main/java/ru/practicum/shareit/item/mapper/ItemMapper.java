@@ -21,14 +21,24 @@ import java.time.LocalDateTime;
 public class ItemMapper {
 
     public static ItemDto toItemDto(Item item) {
-       return new ItemDto(
-               item.getId(),
-               item.getName(),
-               item.getDescription(),
-               item.getAvailable(),
-               item.getRequest() != null ? item.getRequest() : null
+        if (item.getRequestId() != null) {
+            return new ItemDto(
+                    item.getId(),
+                    item.getName(),
+                    item.getDescription(),
+                    item.getAvailable(),
+                    item.getRequestId()
+            );
+        } else {
+            return new ItemDto(
+                    item.getId(),
+                    item.getName(),
+                    item.getDescription(),
+                    item.getAvailable(),
+                    null
+            );
+        }
 
-       );
    }
 
    public static ItemWithBookingDto toItemDtoWithBookings(Item item,
@@ -40,7 +50,7 @@ public class ItemMapper {
                item.getName(),
                item.getDescription(),
                item.getAvailable(),
-               item.getRequest() != null ? item.getRequest() : null,
+               item.getRequestId(),
                nextBooking,
                lastBooking,
                comments
@@ -95,11 +105,12 @@ public class ItemMapper {
 
     public static Item toItem(ItemDto itemDto, User owner) {
        Item item = new Item();
+
        item.setOwner(owner);
        item.setName(itemDto.getName());
        item.setDescription(itemDto.getDescription());
        item.setAvailable(itemDto.getAvailable());
-       item.setRequest(itemDto.getRequest());
+       item.setRequestId(itemDto.getRequestId());
        return item;
     }
 

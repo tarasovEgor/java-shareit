@@ -12,8 +12,8 @@ import ru.practicum.shareit.exception.*;
 public class ErrorHandler {
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleUserDuplicateEmailException(final UserDuplicateEmailException e) {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleInternalServerError(final Throwable e) {
         return new ErrorResponse(
                 e.getMessage()
         );
@@ -30,14 +30,6 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleUserDoesNotExistException(final UserDoesNotExistException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleOwnerNotFoundException(final OwnerNotFoundException e) {
         return new ErrorResponse(
                 e.getMessage()
         );
@@ -62,22 +54,6 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleInvalidAvailableFieldException(final InvalidAvailableFieldException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleInvalidItemPropertiesException(final InvalidItemPropertiesException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleOwnerDoesNotExistException(final OwnerDoesNotExistException e) {
         return new ErrorResponse(
                 e.getMessage()
         );
@@ -150,6 +126,22 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleInvalidCommentException(final InvalidCommentException e) {
+        return new ErrorResponse(
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleInvalidItemRequestDescriptionException(final InvalidItemRequestDescriptionException e) {
+        return new ErrorResponse(
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleItemRequestDoesNotExistException(final ItemRequestDoesNotExistException e) {
         return new ErrorResponse(
                 e.getMessage()
         );

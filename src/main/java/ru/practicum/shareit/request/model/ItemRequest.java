@@ -5,7 +5,8 @@ import lombok.Data;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -48,15 +49,14 @@ public class ItemRequest {
     @Column(
             name = "created"
     )
-    private LocalDate created;
+    private LocalDateTime created = LocalDateTime.now();
 
     public ItemRequest() {
 
     }
 
-    public ItemRequest(String description, User requestor, LocalDate created) {
+    public ItemRequest(String description, User requestor) {
         this.description = description;
         this.requestor = requestor;
-        this.created = created;
     }
 }

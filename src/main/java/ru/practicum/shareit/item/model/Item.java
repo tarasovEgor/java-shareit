@@ -2,7 +2,6 @@ package ru.practicum.shareit.item.model;
 
 import lombok.Data;
 
-import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
@@ -56,9 +55,7 @@ public class Item {
     )
     private User owner;
 
-    @ManyToOne
-    @JoinColumn(name = "request_id")
-    private ItemRequest request;
+    private Long requestId;
 
     public Item() {
 
@@ -68,11 +65,11 @@ public class Item {
                 String description,
                 Boolean available,
                 User owner,
-                ItemRequest request) {
+                Long requestId) {
         this.name = name;
         this.description = description;
         this.available = available;
         this.owner = owner;
-        this.request = request;
+        this.requestId = requestId;
     }
 }
