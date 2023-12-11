@@ -11,7 +11,6 @@ import ru.practicum.shareit.request.model.ItemRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping(path = "/requests")
