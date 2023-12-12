@@ -11,7 +11,6 @@ services:
       - db
     environment:
       - SHAREIT_SERVER_URL=http://server:9090
-      - TZ=Europe/Moscow
 
   server:
     build: server
@@ -37,5 +36,4 @@ services:
       - POSTGRES_DB=shareit
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=root
-      - TZ=Europe/Moscow
 
