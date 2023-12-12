@@ -9,7 +9,7 @@ import ru.practicum.shareit.user.service.impl.UserServiceImpl;
 
 import java.util.List;
 
-import javax.validation.Valid;
+//import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto saveUser(@Valid @RequestBody User user) {
+    public UserDto saveUser(@RequestBody User user) {
         return userServiceImpl.saveUser(user);
     }
 
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public UserDto updateUser(@PathVariable long id, @Valid @RequestBody User user) {
+    public UserDto updateUser(@PathVariable long id, @RequestBody User user) {
         return userServiceImpl.updateUser(id, user);
     }
 
