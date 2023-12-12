@@ -27,6 +27,8 @@ services:
 
   db:
     image: postgres:14-alpine
+    volumes:
+      - /var/lib/postgresql/data/
     container_name: shareIt-db
     ports:
       - "6541:5432"
