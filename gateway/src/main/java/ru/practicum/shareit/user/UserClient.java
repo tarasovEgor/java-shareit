@@ -45,12 +45,4 @@ public class UserClient extends BaseClient {
         return delete("/" + userId);
     }
 
-    /*
-
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable long id) {
-        userServiceImpl.deleteUser(id);
-    }*/
-
 }
