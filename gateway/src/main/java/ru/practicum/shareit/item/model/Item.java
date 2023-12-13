@@ -20,6 +20,6 @@ public class Item {
     @NotNull(message = "Availability status is mandatory")
     private Boolean available;
 
-    //private Long requestId;
+    private Long requestId;
 
 }
