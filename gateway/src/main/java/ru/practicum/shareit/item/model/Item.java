@@ -3,7 +3,6 @@ package ru.practicum.shareit.item.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import ru.practicum.shareit.user.model.User;
 
 import javax.validation.constraints.NotNull;
 
@@ -26,7 +25,7 @@ public class Item {
     private Boolean available;
 
 //    @NotNull(message = "Owner is mandatory")
-    private User owner;
+//    private User owner;
 
     private Long requestId;
 
