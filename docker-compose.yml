@@ -6,7 +6,7 @@ services:
     container_name: gateway-container
     ports:
       - "8080:8080"
-      - "8081:8081"
+#      - "8081:8081"
     depends_on:
       - server
       - db
@@ -20,7 +20,7 @@ services:
     container_name: server-container
     ports:
       - "9090:9090"
-      - "9091:9091"
+#      - "9091:9091"
     depends_on:
       - db
     environment:

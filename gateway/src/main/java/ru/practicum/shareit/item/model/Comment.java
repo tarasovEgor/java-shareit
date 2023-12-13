@@ -15,7 +15,7 @@ public class Comment {
 
     @NotNull(message = "Text is mandatory")
     private String text;
-
+    
     @FutureOrPresent
     private LocalDateTime created;
 
