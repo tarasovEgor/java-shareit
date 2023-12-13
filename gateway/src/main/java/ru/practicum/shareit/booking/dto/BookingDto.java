@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -12,21 +14,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BookingDto {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
-
     @NotNull(message = "Item id is mandatory")
     private Long itemId;
 
-//    @FutureOrPresent
+    @FutureOrPresent
     private LocalDateTime start;
 
-//    @Future
+    @Future
     private LocalDateTime end;
-
-//    private Item item;
-//    private User booker;
-//    private BookingStatus status;
 
 }

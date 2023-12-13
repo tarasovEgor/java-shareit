@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -12,17 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Comment {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
-
     @NotNull(message = "Text is mandatory")
     private String text;
 
-//    private Item item;
-//    private User author;
-
-//    @Present
+    @FutureOrPresent
     private LocalDateTime created;
 
 }

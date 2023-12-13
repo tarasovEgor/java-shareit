@@ -28,15 +28,6 @@ public class BookingClient extends BaseClient {
         );
     }
 
-//    public ResponseEntity<Object> getBookings(long userId, BookingStatus status, Integer from, Integer size) {
-//        Map<String, Object> parameters = Map.of(
-//                "state", status.name(),
-//                "from", from,
-//                "size", size
-//        );
-//        return get("?state={state}&from={from}&size={size}", userId, parameters);
-//    }
-
     public ResponseEntity<Object> getAllBookingsByItemOwner(int from, int size, String state, long ownerId) {
         Map<String, Object> parameters = Map.of(
                 "state", state,
@@ -55,7 +46,6 @@ public class BookingClient extends BaseClient {
         return get("/?state={state}&from={from}&size={size}", bookerId, parameters);
     }
 
-
     public ResponseEntity<Object> saveBooking(long bookerId, BookingDto bookingDto) {
         return post("", bookerId, bookingDto);
     }
@@ -65,16 +55,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> updateBookingStatus(long bookingId, Boolean approved, long bookerId) {
-//        Map<String, Object> parameters = Map.of(
-//                "approved", approved
-//        );
         return patch("/" + bookingId + "?approved=" + approved, bookerId);
     }
-    /*@PatchMapping("/{bookingId}")
-    public BookingDto updateBookingStatus(@PathVariable long bookingId,
-                                       @RequestParam Boolean approved,
-                                       @RequestHeader("X-Sharer-User-Id") long bookerId) {
-        return bookingService.updateBookingStatus(bookingId, approved, bookerId);
-    }*/
 
 }
