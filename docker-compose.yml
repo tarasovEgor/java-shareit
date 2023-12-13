@@ -6,11 +6,13 @@ services:
     container_name: gateway-container
     ports:
       - "8080:8080"
+      - "8081:8081"
     depends_on:
       - server
       - db
     environment:
       - SHAREIT_SERVER_URL=http://server:9090
+      - ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8081
 
   server:
     build: server
@@ -18,12 +20,15 @@ services:
     container_name: server-container
     ports:
       - "9090:9090"
+      - "9091:9091"
     depends_on:
       - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shareit
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=root
+      - ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9091
+
 
   db:
     image: postgres:14-alpine
