@@ -20,9 +20,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BookingDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Long id;
 
     @NotNull(message = "Item id is mandatory")
     private Long itemId;

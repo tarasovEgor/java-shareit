@@ -15,7 +15,7 @@ public class Item {
 
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  //  private Long id;
 
     @NotNull(message = "Name is mandatory")
     private String name;

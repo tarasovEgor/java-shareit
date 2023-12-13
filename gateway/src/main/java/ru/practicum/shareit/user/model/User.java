@@ -14,9 +14,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Long id;
 
     @NotBlank(message = "Name is mandatory")
     private String name;
