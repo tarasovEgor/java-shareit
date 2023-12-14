@@ -26,6 +26,7 @@ public class User {
 //            strategy = SEQUENCE,
 //            generator = "user_sequence"
 //    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false

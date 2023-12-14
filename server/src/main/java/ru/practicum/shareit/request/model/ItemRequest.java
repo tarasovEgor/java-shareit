@@ -27,6 +27,7 @@ public class ItemRequest {
 //            strategy = SEQUENCE,
 //            generator = "request_sequence"
 //    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false

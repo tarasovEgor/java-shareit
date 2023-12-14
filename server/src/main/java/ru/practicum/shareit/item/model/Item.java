@@ -25,6 +25,7 @@ public class Item {
 //            strategy = SEQUENCE,
 //            generator = "item_sequence"
 //    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false
