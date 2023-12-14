@@ -6,7 +6,6 @@ import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity
