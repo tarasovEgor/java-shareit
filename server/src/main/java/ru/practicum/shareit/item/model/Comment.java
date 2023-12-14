@@ -19,15 +19,15 @@ import java.time.LocalDateTime;
 public class Comment {
 
     @Id
-    @SequenceGenerator(
-            name = "comment_sequence",
-            sequenceName = "comment_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "comment_sequence"
-    )
+//    @SequenceGenerator(
+//            name = "comment_sequence",
+//            sequenceName = "comment_sequence",
+//            allocationSize = 1
+//    )
+//    @GeneratedValue(
+//            strategy = SEQUENCE,
+//            generator = "comment_sequence"
+//    )
     @Column(
             name = "id",
             updatable = false

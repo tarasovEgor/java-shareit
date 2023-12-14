@@ -21,15 +21,15 @@ import static javax.persistence.GenerationType.SEQUENCE;
 public class Booking {
 
     @Id
-    @SequenceGenerator(
-            name = "booking_sequence",
-            sequenceName = "booking_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "booking_sequence"
-    )
+//    @SequenceGenerator(
+//            name = "booking_sequence",
+//            sequenceName = "booking_sequence",
+//            allocationSize = 1
+//    )
+//    @GeneratedValue(
+//            strategy = SEQUENCE,
+//            generator = "booking_sequence"
+//    )
     @Column(
             name = "id",
             updatable = false

@@ -17,15 +17,15 @@ import static javax.persistence.GenerationType.SEQUENCE;
 public class Item {
 
     @Id
-    @SequenceGenerator(
-            name = "item_sequence",
-            sequenceName = "item_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "item_sequence"
-    )
+//    @SequenceGenerator(
+//            name = "item_sequence",
+//            sequenceName = "item_sequence",
+//            allocationSize = 1
+//    )
+//    @GeneratedValue(
+//            strategy = SEQUENCE,
+//            generator = "item_sequence"
+//    )
     @Column(
             name = "id",
             updatable = false
