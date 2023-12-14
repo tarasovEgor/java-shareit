@@ -10,6 +10,14 @@ DROP TABLE IF EXISTS items CASCADE;
 DROP TABLE IF EXISTS bookings CASCADE;
 DROP TABLE IF EXISTS comments CASCADE;
 
+--<!-- Liquibase migration definition -->
+--<!-- as described above -->
+CREATE TYPE my_enum_type AS ENUM('WAITING', 'APPROVED', 'REJECTED', 'CURRENT', 'PAST', 'FUTURE', 'ALL');
+
+--<!-- add an additional type -->
+--<sql>CREATE CAST (varchar AS booking_status_type) WITH INOUT AS IMPLICIT</sql>
+
+
 CREATE SEQUENCE IF NOT EXISTS user_sequence
     START WITH 1
     INCREMENT BY 1
@@ -68,7 +76,7 @@ CREATE TABLE IF NOT EXISTS bookings (
     end_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     item_id BIGINT,
     booker_id BIGINT,
-    status VARCHAR(255) NOT NULL,
+    status my_enum_type,
     CONSTRAINT fk_bookings_to_items FOREIGN KEY(item_id) REFERENCES items(id),
     CONSTRAINT fk_bookings_to_users FOREIGN KEY(booker_id) REFERENCES users(id)
 );
