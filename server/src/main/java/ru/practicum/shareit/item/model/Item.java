@@ -6,6 +6,8 @@ import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 
 @Data
 @Entity
@@ -16,16 +18,16 @@ import javax.persistence.*;
 public class Item {
 
     @Id
-//    @SequenceGenerator(
-//            name = "item_sequence",
-//            sequenceName = "item_sequence",
-//            allocationSize = 1
-//    )
-//    @GeneratedValue(
-//            strategy = SEQUENCE,
-//            generator = "item_sequence"
-//    )
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "item_sequence",
+            sequenceName = "item_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "item_sequence"
+    )
+  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false

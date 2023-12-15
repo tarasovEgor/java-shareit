@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 
 @Data
 @Entity
@@ -18,16 +20,16 @@ import java.time.LocalDateTime;
 public class ItemRequest {
 
     @Id
-//    @SequenceGenerator(
-//            name = "request_sequence",
-//            sequenceName = "request_sequence",
-//            allocationSize = 1
-//    )
-//    @GeneratedValue(
-//            strategy = SEQUENCE,
-//            generator = "request_sequence"
-//    )
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "request_sequence",
+            sequenceName = "request_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "request_sequence"
+    )
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false

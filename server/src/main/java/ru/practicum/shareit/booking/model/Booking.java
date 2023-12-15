@@ -10,6 +10,8 @@ import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 
 @Data
 @Entity
@@ -20,16 +22,16 @@ import java.time.LocalDateTime;
 public class Booking {
 
     @Id
-//    @SequenceGenerator(
-//            name = "booking_sequence",
-//            sequenceName = "booking_sequence",
-//            allocationSize = 1
-//    )
-//    @GeneratedValue(
-//            strategy = SEQUENCE,
-//            generator = "booking_sequence"
-//    )
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "booking_sequence",
+            sequenceName = "booking_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "booking_sequence"
+    )
+  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false

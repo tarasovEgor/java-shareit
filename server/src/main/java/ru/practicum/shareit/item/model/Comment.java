@@ -9,6 +9,8 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 @Data
 @Entity
 @Table(
@@ -18,16 +20,16 @@ import java.time.LocalDateTime;
 public class Comment {
 
     @Id
-//    @SequenceGenerator(
-//            name = "comment_sequence",
-//            sequenceName = "comment_sequence",
-//            allocationSize = 1
-//    )
-//    @GeneratedValue(
-//            strategy = SEQUENCE,
-//            generator = "comment_sequence"
-//    )
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "comment_sequence",
+            sequenceName = "comment_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "comment_sequence"
+    )
+  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false
