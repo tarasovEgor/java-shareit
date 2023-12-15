@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
-
 @Data
 @Entity
 @Table(
@@ -29,7 +28,6 @@ public class ItemRequest {
             strategy = SEQUENCE,
             generator = "request_sequence"
     )
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false

@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
-
 @Data
 @Entity
 @Table(
@@ -28,7 +27,6 @@ public class User {
             strategy = SEQUENCE,
             generator = "user_sequence"
     )
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false

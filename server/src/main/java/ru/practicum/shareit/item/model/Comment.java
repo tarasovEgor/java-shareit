@@ -29,7 +29,6 @@ public class Comment {
             strategy = SEQUENCE,
             generator = "comment_sequence"
     )
-  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false

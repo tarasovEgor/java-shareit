@@ -31,7 +31,6 @@ public class Booking {
             strategy = SEQUENCE,
             generator = "booking_sequence"
     )
-  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false
