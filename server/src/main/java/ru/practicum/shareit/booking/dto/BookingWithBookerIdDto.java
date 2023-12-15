@@ -5,6 +5,8 @@ import lombok.Data;
 import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.item.model.Item;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,6 +16,8 @@ public class BookingWithBookerIdDto {
     private LocalDateTime end;
     private Item item;
     private Long bookerId;
+
+    @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
     public BookingWithBookerIdDto(Long id) {

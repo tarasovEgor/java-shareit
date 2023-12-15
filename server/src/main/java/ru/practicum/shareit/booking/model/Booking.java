@@ -59,6 +59,7 @@ public class Booking {
     @Column(
             name = "status"
     )
+    @Enumerated(EnumType.STRING)
     private BookingStatus status = BookingStatus.WAITING;
 
     public Booking() {

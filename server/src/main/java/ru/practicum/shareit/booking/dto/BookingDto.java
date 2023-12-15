@@ -6,6 +6,8 @@ import ru.practicum.shareit.booking.constant.BookingStatus;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,6 +18,8 @@ public class BookingDto {
     private LocalDateTime end;
     private Item item;
     private User booker;
+
+    @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
     private BookingDto() {
