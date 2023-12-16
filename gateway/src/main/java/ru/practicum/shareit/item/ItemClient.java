@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+
 import ru.practicum.shareit.client.BaseClient;
 import ru.practicum.shareit.item.exception.InvalidCommentException;
 import ru.practicum.shareit.item.model.Comment;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 public class ItemClient extends BaseClient {
+
     private static final String API_PREFIX = "/items";
 
     @Autowired

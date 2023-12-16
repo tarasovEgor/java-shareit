@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import ru.practicum.shareit.user.model.User;
 
-
 import java.time.LocalDateTime;
 
 import static javax.persistence.GenerationType.SEQUENCE;

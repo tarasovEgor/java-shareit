@@ -53,11 +53,7 @@ public class BookingServiceImpl implements BookingService {
         if (!item.get().getAvailable()) {
             throw new ItemIsUnavailableException("Item is not available.");
         }
-//        if (bookingDto.getStart() == null || bookingDto.getEnd() == null) {
-//            throw new InvalidBookingDateException("Invalid booking date.");
-//        }
 
-//        BookingValidation.isBookingDateValid(bookingDto.getStart(), bookingDto.getEnd());
         Optional<User> booker = userRepository.findById(bookerId);
 
         return BookingMapper.toBookingDto(
@@ -118,7 +114,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getAllBookingsByBooker(String status, long bookerId, int from, int size) {
-//        BookingValidation.isBookingStateValid(status);
         Page<Booking> page;
         User booker = userRepository.findById(bookerId)
                 .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
@@ -158,7 +153,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getAllBookingsByItemOwner(String status, long ownerId, int from, int size) {
-//        BookingValidation.isBookingStateValid(status);
         Page<Booking> page;
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));

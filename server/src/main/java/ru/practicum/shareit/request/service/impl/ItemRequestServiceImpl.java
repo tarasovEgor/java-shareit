@@ -36,7 +36,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Override
     public ItemRequestDto saveItemRequest(ItemRequest itemRequest, long userId) {
-        //ItemRequestValidation.isItemRequestValid(itemRequest);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
         itemRequest.setRequestor(user);

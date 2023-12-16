@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+
 import ru.practicum.shareit.client.BaseClient;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.validation.UserValidation;

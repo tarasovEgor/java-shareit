@@ -50,7 +50,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto saveItem(Item item, long ownerId) {
-       // ItemValidation.isItemDtoValid(item);
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new UserDoesNotExistException("Owner doesn't exist."));
         item.setOwner(owner);
@@ -59,10 +58,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public CommentDto saveComment(Comment comment, long itemId, long authorId) {
-//        if (comment.getText().isEmpty()) {
-//            throw new InvalidCommentException("Can't create a comment without text.");
-//        }
-
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist."));
         Optional<User> author = userRepository.findById(authorId);
@@ -149,9 +144,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> searchItem(String text) {
-//        if (text.isEmpty()) {
-//            return new ArrayList<>();
-//        }
         return ItemMapper.toItemDto(itemRepository.search(text));
     }
 }

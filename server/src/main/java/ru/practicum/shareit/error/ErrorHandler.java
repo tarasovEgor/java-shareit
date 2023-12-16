@@ -19,14 +19,6 @@ public class ErrorHandler {
         );
     }
 
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleInvalidEmailException(final InvalidEmailException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
-
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleUserDoesNotExistException(final UserDoesNotExistException e) {
@@ -34,30 +26,6 @@ public class ErrorHandler {
                 e.getMessage()
         );
     }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleInvalidItemNameException(final InvalidItemNameException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleInvalidItemDescriptionException(final InvalidItemDescriptionException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleInvalidAvailableFieldException(final InvalidAvailableFieldException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -75,14 +43,6 @@ public class ErrorHandler {
         );
     }
 
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleInvalidBookingDateException(final InvalidBookingDateException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
-
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleBookingNotFoundException(final BookingNotFoundException e) {
@@ -90,14 +50,6 @@ public class ErrorHandler {
                 e.getMessage()
         );
     }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleUnsupportedBookingException(final UnsupportedBookingStatusException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -122,22 +74,6 @@ public class ErrorHandler {
                 e.getMessage()
         );
     }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleInvalidCommentException(final InvalidCommentException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ErrorResponse handleInvalidItemRequestDescriptionException(final InvalidItemRequestDescriptionException e) {
-//        return new ErrorResponse(
-//                e.getMessage()
-//        );
-//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
