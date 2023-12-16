@@ -10,7 +10,6 @@ import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 import ru.practicum.shareit.user.service.UserService;
-import ru.practicum.shareit.validation.UserValidation;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto saveUser(User user) {
-        UserValidation.isUserEmailValid(user);
+       // UserValidation.isUserEmailValid(user);
         return UserMapper.toUserDto(repository.save(user));
     }
 

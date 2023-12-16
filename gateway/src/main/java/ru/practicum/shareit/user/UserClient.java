@@ -9,6 +9,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import ru.practicum.shareit.client.BaseClient;
 import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.validation.UserValidation;
 
 @Service
 public class UserClient extends BaseClient {
@@ -26,6 +27,7 @@ public class UserClient extends BaseClient {
     }
 
     public ResponseEntity<Object> saveUser(User user) {
+        UserValidation.isUserEmailValid(user);
         return post("", user);
     }
 
