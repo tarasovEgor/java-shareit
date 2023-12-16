@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.exception.InvalidBookingDateException;
+import ru.practicum.shareit.booking.validation.BookingValidation;
 import ru.practicum.shareit.client.BaseClient;
 
 import java.util.Map;
@@ -28,18 +30,20 @@ public class BookingClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> getAllBookingsByItemOwner(int from, int size, String state, long ownerId) {
+    public ResponseEntity<Object> getAllBookingsByItemOwner(int from, int size, String status, long ownerId) {
+        BookingValidation.isBookingStateValid(status);
         Map<String, Object> parameters = Map.of(
-                "state", state,
+                "state", status,
                 "from", from,
                 "size", size
         );
         return get("/owner?state={state}&from={from}&size={size}", ownerId, parameters);
     }
 
-    public ResponseEntity<Object> getAllBookingsByBooker(int from, int size, String state, long bookerId) {
+    public ResponseEntity<Object> getAllBookingsByBooker(int from, int size, String status, long bookerId) {
+        BookingValidation.isBookingStateValid(status);
         Map<String, Object> parameters = Map.of(
-                "state", state,
+                "state", status,
                 "from", from,
                 "size", size
         );
@@ -47,6 +51,10 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> saveBooking(long bookerId, BookingDto bookingDto) {
+        if (bookingDto.getStart() == null || bookingDto.getEnd() == null) {
+            throw new InvalidBookingDateException("Invalid booking date.");
+        }
+        BookingValidation.isBookingDateValid(bookingDto.getStart(), bookingDto.getEnd());
         return post("", bookerId, bookingDto);
     }
 
