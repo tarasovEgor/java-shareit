@@ -35,29 +35,29 @@ public class ErrorHandler {
         );
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleInvalidItemNameException(final InvalidItemNameException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ErrorResponse handleInvalidItemNameException(final InvalidItemNameException e) {
+//        return new ErrorResponse(
+//                e.getMessage()
+//        );
+//    }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleInvalidItemDescriptionException(final InvalidItemDescriptionException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ErrorResponse handleInvalidItemDescriptionException(final InvalidItemDescriptionException e) {
+//        return new ErrorResponse(
+//                e.getMessage()
+//        );
+//    }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleInvalidAvailableFieldException(final InvalidAvailableFieldException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ErrorResponse handleInvalidAvailableFieldException(final InvalidAvailableFieldException e) {
+//        return new ErrorResponse(
+//                e.getMessage()
+//        );
+//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -123,13 +123,13 @@ public class ErrorHandler {
         );
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleInvalidCommentException(final InvalidCommentException e) {
-        return new ErrorResponse(
-                e.getMessage()
-        );
-    }
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public ErrorResponse handleInvalidCommentException(final InvalidCommentException e) {
+//        return new ErrorResponse(
+//                e.getMessage()
+//        );
+//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)

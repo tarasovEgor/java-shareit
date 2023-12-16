@@ -24,7 +24,6 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 import ru.practicum.shareit.validation.ItemValidation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +50,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto saveItem(Item item, long ownerId) {
-        ItemValidation.isItemDtoValid(item);
+       // ItemValidation.isItemDtoValid(item);
         User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new UserDoesNotExistException("Owner doesn't exist."));
         item.setOwner(owner);
@@ -60,9 +59,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public CommentDto saveComment(Comment comment, long itemId, long authorId) {
-        if (comment.getText().isEmpty()) {
-            throw new InvalidCommentException("Can't create a comment without text.");
-        }
+//        if (comment.getText().isEmpty()) {
+//            throw new InvalidCommentException("Can't create a comment without text.");
+//        }
 
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ItemDoesNotExistException("Item doesn't exist."));
@@ -150,9 +149,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> searchItem(String text) {
-        if (text.isEmpty()) {
-            return new ArrayList<>();
-        }
+//        if (text.isEmpty()) {
+//            return new ArrayList<>();
+//        }
         return ItemMapper.toItemDto(itemRepository.search(text));
     }
 }

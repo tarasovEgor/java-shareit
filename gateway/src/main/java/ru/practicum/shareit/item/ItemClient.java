@@ -8,10 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import ru.practicum.shareit.client.BaseClient;
+import ru.practicum.shareit.item.exception.InvalidCommentException;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.validation.ItemValidation;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ItemClient extends BaseClient {
@@ -28,6 +32,7 @@ public class ItemClient extends BaseClient {
     }
 
     public ResponseEntity<Object> saveItem(Item item, long ownerId) {
+        ItemValidation.isItemDtoValid(item);
         return post("", ownerId, item);
     }
 
@@ -44,6 +49,9 @@ public class ItemClient extends BaseClient {
     }
 
     public ResponseEntity<Object> searchItem(String text, long userId) {
+        if (text.isEmpty()) {
+            return ResponseEntity.of(Optional.of(new ArrayList<>()));
+        }
         Map<String, Object> parameters = Map.of(
                 "text", text
         );
@@ -51,6 +59,9 @@ public class ItemClient extends BaseClient {
     }
 
     public ResponseEntity<Object> saveComment(Comment comment, long itemId, long authorId) {
+        if (comment.getText().isEmpty()) {
+            throw new InvalidCommentException("Can't create a comment without text.");
+        }
         return post("/" + itemId + "/comment", authorId, comment);
     }
 
