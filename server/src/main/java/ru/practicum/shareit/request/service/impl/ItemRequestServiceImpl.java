@@ -15,7 +15,6 @@ import ru.practicum.shareit.request.repository.ItemRequestRepository;
 import ru.practicum.shareit.request.service.ItemRequestService;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
-import ru.practicum.shareit.validation.ItemRequestValidation;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +36,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Override
     public ItemRequestDto saveItemRequest(ItemRequest itemRequest, long userId) {
-        ItemRequestValidation.isItemRequestValid(itemRequest);
+        //ItemRequestValidation.isItemRequestValid(itemRequest);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserDoesNotExistException("User doesn't exist."));
         itemRequest.setRequestor(user);

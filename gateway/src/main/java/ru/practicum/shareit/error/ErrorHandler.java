@@ -4,12 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import ru.practicum.shareit.booking.exception.InvalidBookingDateException;
 import ru.practicum.shareit.booking.exception.UnsupportedBookingStatusException;
 import ru.practicum.shareit.item.exception.InvalidAvailableFieldException;
 import ru.practicum.shareit.item.exception.InvalidCommentException;
 import ru.practicum.shareit.item.exception.InvalidItemDescriptionException;
 import ru.practicum.shareit.item.exception.InvalidItemNameException;
+import ru.practicum.shareit.request.exception.InvalidItemRequestDescriptionException;
 import ru.practicum.shareit.user.exception.InvalidEmailException;
 import ru.practicum.shareit.user.exception.UserDoesNotExistException;
 
@@ -75,6 +77,14 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleUnsupportedBookingException(final UnsupportedBookingStatusException e) {
+        return new ErrorResponse(
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleInvalidItemRequestDescriptionException(final InvalidItemRequestDescriptionException e) {
         return new ErrorResponse(
                 e.getMessage()
         );

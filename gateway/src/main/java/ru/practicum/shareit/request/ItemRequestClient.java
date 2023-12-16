@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.shareit.client.BaseClient;
 import ru.practicum.shareit.request.model.ItemRequest;
+import ru.practicum.shareit.request.validation.ItemRequestValidation;
 
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class ItemRequestClient extends BaseClient {
     }
 
     public ResponseEntity<Object> saveItemRequest(ItemRequest itemRequest, long userId) {
+        ItemRequestValidation.isItemRequestValid(itemRequest);
         return post("", userId, itemRequest);
     }
 
